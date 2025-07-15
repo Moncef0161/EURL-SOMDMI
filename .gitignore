@@ -4,6 +4,7 @@ _build/
 # dotfiles
 .*
 !.gitignore
+!.gitkeep
 !.github
 !.mailmap
 # compiled python files
@@ -49,3 +50,4 @@ package.json
 /man/
 /share/
 /src/
+venv/
