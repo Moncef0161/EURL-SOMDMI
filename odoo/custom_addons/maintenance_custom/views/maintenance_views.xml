@@ -1,0 +1,110 @@
+<odoo>
+    <record id="equipment_request_view_form_custom" model="ir.ui.view">
+        <field name="name">equipment.request.form.custom</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_user_id']" position="replace">
+                <field name="owner_partner_id" string="Owner"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_equipment_view_form_custom" model="ir.ui.view">
+        <field name="name">equipment.form.custom</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_user_id']" position="replace">
+                <field name="owner_partner_id" string="Owner"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    <record id="hr_equipment_request_view_search_custom" model="ir.ui.view">-->
+    <!--        <field name="name">equipment.request.search.custom</field>-->
+    <!--        <field name="model">maintenance.request</field>-->
+    <!--        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_search"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//field[@name='owner_user_id']" position="replace">-->
+    <!--                <field name="owner_partner_id" string="Owner"/>-->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//filter[@name='created_by']" position="replace">-->
+    <!--                <filter string="Owner" context="{'group_by': 'owner_partner_id'}"/>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <record id="hr_equipment_request_view_kanban_custom" model="ir.ui.view">
+        <field name="name">equipment.request.kanban.custom</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//span[@name='owner_user_id']" position="replace">
+                <span name="owner_partner_id" t-if="record.owner_partner_id.raw_value">Requested by: <field
+                        name="owner_partner_id"/></span>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_equipment_request_view_tree_custom" model="ir.ui.view">
+        <field name="name">equipment.request.list.custom</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_user_id']" position="replace">
+                <field name="owner_partner_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_equipment_view_kanban_custom" model="ir.ui.view">
+        <field name="name">equipment.kanban.custom</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer/div/field[@name='owner_user_id']" position="replace">
+                <field name="owner_partner_id" widget="many2one_avatar_user" class="ms-1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_equipment_view_tree_custom" model="ir.ui.view">
+        <field name="name">equipment.list.custom</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_user_id']" position="replace">
+                <field name="owner_partner_id" string="Owner"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_equipment_view_search_custom" model="ir.ui.view">
+        <field name="name">equipment.search.custom</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_user_id']" position="replace">
+                <field name="owner_partner_id" string="Owner"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='my']" position="replace">
+                <filter string="My Equipment" name="my" domain="[('owner_partner_id', '=', uid)]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='assigned']" position="replace">
+                <filter string="Assigned" name="assigned" domain="[('owner_partner_id', '!=', False)]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='available']" position="replace">
+                <filter string="Unassigned" name="available" domain="[('owner_partner_id', '=', False)]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='owner']" position="replace">
+                <filter string="Owner" name="owner" domain="[]" context="{'group_by': 'owner_partner_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
