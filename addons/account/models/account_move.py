@@ -38,6 +38,7 @@ from odoo.tools import (
 )
 from odoo.tools.mail import email_re, email_split, is_html_empty, generate_tracking_message_id
 from odoo.tools.misc import StackMap
+from odoo.tools.safe_eval import safe_eval
 
 
 _logger = logging.getLogger(__name__)
@@ -4414,6 +4415,13 @@ class AccountMove(models.Model):
         else:
             cash_discount_account = company.account_journal_early_pay_discount_gain_account_id
 
+        epd_analytic_distribution = self.env['account.analytic.distribution.model']._get_distribution({
+            'account_prefix': cash_discount_account.code,
+            'company_id': self.company_id.id,
+            'partner_id': self.commercial_partner_id.id,
+            'partner_category_id': self.partner_id.category_id.ids,
+        })
+
         bases_details = {}
 
         term_amount_currency = payment_term_line.amount_currency - payment_term_line.discount_amount_currency
@@ -4432,7 +4440,7 @@ class AccountMove(models.Model):
                     'partner_id': base_line['partner_id'].id,
                     'currency_id': base_line['currency_id'].id,
                     'account_id': cash_discount_account.id,
-                    'analytic_distribution': base_line['analytic_distribution'],
+                    'analytic_distribution': base_line['analytic_distribution'] or epd_analytic_distribution,
                 }
                 base_detail = resulting_delta_base_details.setdefault(frozendict(grouping_dict), {
                     'balance': 0.0,
@@ -4511,6 +4519,7 @@ class AccountMove(models.Model):
                 'currency_id': payment_term_line.currency_id.id,
                 'amount_currency': term_amount_currency,
                 'balance': term_balance,
+                'analytic_distribution': epd_analytic_distribution,
             }
 
         return res
@@ -5892,7 +5901,9 @@ class AccountMove(models.Model):
     def _get_invoice_report_filename(self, extension='pdf'):
         """ Get the filename of the generated invoice report with extension file. """
         self.ensure_one()
-        return f"{self.name.replace('/', '_')}.{extension}"
+        report_id = self.partner_id.invoice_template_pdf_report_id or self.env.ref('account.account_invoices')
+        file_name = safe_eval(report_id.print_report_name, {'object': self})
+        return f"{file_name.replace('/', '_')}.{extension}"
 
     def _get_invoice_proforma_pdf_report_filename(self):
         """ Get the filename of the generated proforma PDF invoice report. """
