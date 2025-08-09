@@ -55,14 +55,16 @@ jobs:
             git checkout -B 18.0 upstream/18.0
           fi
 
-          if ! git merge-base --is-ancestor 18.0 upstream/18.0; then
+          if git merge-base --is-ancestor upstream/18.0 18.0; then
+            echo "✅ No new commits from upstream. 18.0 is already up to date."
+          else
+            echo "⬆️ Updating 18.0 from upstream..."
             if ! git rebase upstream/18.0; then
               git rebase --abort || true
               git merge upstream/18.0 --no-edit || true
             fi
+            git push origin 18.0
           fi
-
-          git push origin 18.0
 
       - name: Merge 18.0 into dev
         working-directory: repo
