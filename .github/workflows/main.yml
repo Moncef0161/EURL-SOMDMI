@@ -1,0 +1,37 @@
+name: Sync with upstream
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # Every day at 03:00 UTC
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/odoo/odoo.git
+          git fetch upstream 18.0
+
+      - name: Update 18.0 from upstream
+        run: |
+          git checkout 18.0
+          git merge upstream/18.0 --no-edit || true
+          git push origin 18.0
+
+      - name: Merge 18.0 into dev
+        run: |
+          git checkout dev
+          git merge 18.0 --no-edit || true
+          git push origin dev
