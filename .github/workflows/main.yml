@@ -3,35 +3,77 @@ name: Sync with upstream
 on:
   schedule:
     - cron: '0 3 * * *' # Every day at 03:00 UTC
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    env:
+      GIT_LFS_SKIP_SMUDGE: "1"
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Git
+      - name: Partial clone (blobless) of origin
         run: |
+          set -euo pipefail
+          git -c protocol.version=2 clone \
+            --filter=blob:none \
+            --no-checkout \
+            --depth=50 \
+            --no-tags \
+            "${{ github.server_url }}/${{ github.repository }}.git" repo
+          cd repo
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          # Fetch uniquement les branches nécessaires depuis origin
+          git fetch --no-tags --depth=50 origin refs/heads/18.0:refs/remotes/origin/18.0 || true
+          git fetch --no-tags --depth=50 origin refs/heads/dev:refs/remotes/origin/dev || true
 
-      - name: Add upstream remote
+      - name: Add upstream and fetch upstream/18.0 (shallow)
+        working-directory: repo
         run: |
+          set -euo pipefail
           git remote add upstream https://github.com/odoo/odoo.git
-          git fetch upstream 18.0
+          git fetch --no-tags --depth=50 upstream refs/heads/18.0:refs/remotes/upstream/18.0
 
-      - name: Update 18.0 from upstream
+      - name: Update 18.0 from upstream (prefer fast-forward)
+        working-directory: repo
         run: |
-          git checkout 18.0
-          git merge upstream/18.0 --no-edit || true
+          set -euo pipefail
+          # Prépare la branche 18.0 locale à partir de origin/18.0 (ou crée-la si absente)
+          if git rev-parse --verify origin/18.0 >/dev/null 2>&1; then
+            git checkout -B 18.0 origin/18.0
+          else
+            git checkout -B 18.0 upstream/18.0
+          fi
+
+          # Tente un fast-forward via rebase pour minimiser les diffs
+          if ! git merge-base --is-ancestor 18.0 upstream/18.0; then
+            # Essaye rebase d'abord (plus léger en historique)
+            if ! git rebase upstream/18.0; then
+              git rebase --abort || true
+              # Repli: merge sans edit
+              git merge upstream/18.0 --no-edit || true
+            fi
+          fi
+
           git push origin 18.0
 
       - name: Merge 18.0 into dev
+        working-directory: repo
         run: |
-          git checkout dev
-          git merge 18.0 --no-edit || true
+          set -euo pipefail
+          # Prépare la branche dev locale
+          if git rev-parse --verify origin/dev >/dev/null 2>&1; then
+            git checkout -B dev origin/dev
+          else
+            # Si dev n'existe pas, créez-la depuis 18.0
+            git checkout -B dev 18.0
+          fi
+
+          # Tente fast-forward si possible, sinon merge
+          if git merge-base --is-ancestor dev 18.0; then
+            git merge --ff-only 18.0 || true
+          else
+            git merge 18.0 --no-edit || true
+          fi
+
           git push origin dev
