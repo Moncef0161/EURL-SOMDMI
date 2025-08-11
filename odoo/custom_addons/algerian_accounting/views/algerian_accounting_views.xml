@@ -1,0 +1,72 @@
+<odoo>
+    <record id="mail.res_company_view_form" model="ir.ui.view">
+        <field name="active">False</field>
+    </record>
+
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form.inherit.algerian.account</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="account.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="replace"/>
+            <xpath expr="//field[@name='color']" position="replace"/>
+            <xpath expr="//page[@name='branches']" position="replace"/>
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="placeholder">Wilaya</attribute>
+            </xpath>
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="placeholder">Commune</attribute>
+            </xpath>
+            <xpath expr="//page[@name='general_info']" position="after">
+                <page name='identification_numbers' string="Numéros d'identification">
+                    <group>
+                        <field name="nif" string="NIF"/>
+                        <field name="nis" string="NIS"/>
+                        <field name="nrc" string="NRC"/>
+                        <field name="rib" string="RIB"/>
+                        <field name="nart" string="NART"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_address_form" model="ir.ui.view">
+        <field name="name">res.partner.form.address.algerian.account</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_address_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="placeholder">Wilaya</attribute>
+            </xpath>
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="placeholder">Commune</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.algerian.account</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="placeholder">Wilaya</attribute>
+            </xpath>
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="placeholder">Commune</attribute>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']" position="after">
+                <page name='identification_numbers' string="Numéros d'identification">
+                    <group>
+                        <field name="nif" string="NIF"/>
+                        <field name="nis" string="NIS"/>
+                        <field name="nrc" string="NRC"/>
+                        <field name="rib" string="RIB"/>
+                        <field name="nart" string="NART"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
