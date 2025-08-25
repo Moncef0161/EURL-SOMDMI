@@ -1,0 +1,16 @@
+<odoo>
+    <data noupdate="0">
+
+        <record id="ir_cron_currency_update_6pm" model="ir.cron">
+            <field name="name">Currency Rates Update 6 PM</field>
+            <field name="model_id" ref="base.model_res_currency"/>
+            <field name="state">code</field>
+            <field name="code">model.update_currency_rates()</field>
+            <field name="active">True</field>
+            <field name="interval_type">days</field>
+            <field name="interval_number">1</field>
+            <field name="nextcall">2025-08-25 18:30:00</field>
+        </record>
+
+    </data>
+</odoo>
