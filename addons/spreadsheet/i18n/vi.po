@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-22 18:39+0000\n"
+"POT-Creation-Date: 2025-09-27 01:49+0000\n"
 "PO-Revision-Date: 2024-09-25 09:41+0000\n"
 "Last-Translator: Wil Odoo, 2025\n"
 "Language-Team: Vietnamese (https://app.transifex.com/odoo/teams/41243/vi/)\n"
@@ -1660,12 +1660,6 @@ msgstr "Không thể ẩn tất cả các hàng của một trang tính."
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
-msgid "Cannot multiply matrices : incompatible matrices size."
-msgstr "Không thể nhân ma trận: kích thước ma trận không tương thích."
-
-#. module: spreadsheet
-#. odoo-javascript
-#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "Cannot open the link because the linked sheet is hidden."
 msgstr "Không thể mở liên kết vì trang tính được liên kết đã bị ẩn."
 
@@ -1984,6 +1978,12 @@ msgstr "Dấy phẩy"
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "Compare two numeric values, returning 1 if they're equal."
 msgstr "So sánh hai giá trị số, trả về 1 nếu chúng bằng nhau."
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.xml:0
+msgid "Compute from totals"
+msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -3661,16 +3661,6 @@ msgstr "Hàm [[FUNCTION_NAME]] cần criteria_range có cùng danh mục."
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "Function [[FUNCTION_NAME]] expects number values for %s, but got a %s."
 msgstr "Hàm [[FUNCTION_NAME]] cần các giá trị số cho %s, nhưng nhận được %s."
-
-#. module: spreadsheet
-#. odoo-javascript
-#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
-msgid ""
-"Function [[FUNCTION_NAME]] invert matrix error, only square matrices are "
-"invertible"
-msgstr ""
-"Hàm [[FUNCTION_NAME]] lỗi ma trận nghịch đảo, chỉ có ma trận vuông là nghịch "
-"đảo"
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -7915,6 +7905,14 @@ msgstr "Số cộng đầu tiên."
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid ""
+"The first and second arguments of [[FUNCTION_NAME]] must be non-empty "
+"matrices."
+msgstr ""
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "The first column index of the columns to be returned."
 msgstr "Chỉ mục cột đầu tiên của các cột được trả về."
 
@@ -10231,12 +10229,6 @@ msgstr "Giá trị hoặc các giá trị được nối thêm bằng dấu phâ
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
-msgid "The value should be a scalar or a 1x1 matrix"
-msgstr "Giá trị phải là ma trận 1x1 hoặc vô hướng"
-
-#. module: spreadsheet
-#. odoo-javascript
-#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "The value the function returns if logical_expression is FALSE."
 msgstr "Giá trị hàm trả về nếu logical_expression là FALSE."
 
@@ -10944,12 +10936,8 @@ msgstr "Giá trị thay đổi so với giá trị khóa"
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
-msgid ""
-"Value for parameter %d is missing, while the function [[FUNCTION_NAME]] "
-"expect a number or a range."
+msgid "Value for parameter %s is missing in [[FUNCTION_NAME]]."
 msgstr ""
-"Thiếu giá trị cho tham số %d, trong khi hàm [[FUNCTION_NAME]] cần một số "
-"hoặc một phạm vi."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11533,14 +11521,16 @@ msgstr "[[FUNCTION_NAME]] xác định giá trị hàng nằm ngoài phạm vi %
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
-msgid "[[FUNCTION_NAME]] expects non-empty ranges for both parameters."
-msgstr "[[FUNCTION_NAME]] cần phạm vi không trống cho cả hai tham số."
+msgid "[[FUNCTION_NAME]] expects number values."
+msgstr "[[FUNCTION_NAME]] cần giá trị số."
 
 #. module: spreadsheet
 #. odoo-javascript
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
-msgid "[[FUNCTION_NAME]] expects number values."
-msgstr "[[FUNCTION_NAME]] cần giá trị số."
+msgid ""
+"[[FUNCTION_NAME]] expects the provided values of %(argName)s to be a non-"
+"empty matrix."
+msgstr ""
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11571,12 +11561,6 @@ msgstr "[[FUNCTION_NAME]] có kích thước phạm vi không khớp."
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "[[FUNCTION_NAME]] has no valid input data."
 msgstr "[[FUNCTION_NAME]] không có dữ liệu đầu vào hợp lệ."
-
-#. module: spreadsheet
-#. odoo-javascript
-#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
-msgid "[[FUNCTION_NAME]] needs at least two values for both parameters."
-msgstr "[[FUNCTION_NAME]] cần ít nhất hai giá trị cho cả hai tham số."
 
 #. module: spreadsheet
 #. odoo-javascript
@@ -11796,3 +11780,29 @@ msgstr "hôm qua"
 #: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
 msgid "zero"
 msgstr "0"
+
+#~ msgid ""
+#~ "Value for parameter %d is missing, while the function [[FUNCTION_NAME]] "
+#~ "expect a number or a range."
+#~ msgstr ""
+#~ "Thiếu giá trị cho tham số %d, trong khi hàm [[FUNCTION_NAME]] cần một số "
+#~ "hoặc một phạm vi."
+
+#~ msgid "Cannot multiply matrices : incompatible matrices size."
+#~ msgstr "Không thể nhân ma trận: kích thước ma trận không tương thích."
+
+#~ msgid ""
+#~ "Function [[FUNCTION_NAME]] invert matrix error, only square matrices are "
+#~ "invertible"
+#~ msgstr ""
+#~ "Hàm [[FUNCTION_NAME]] lỗi ma trận nghịch đảo, chỉ có ma trận vuông là "
+#~ "nghịch đảo"
+
+#~ msgid "The value should be a scalar or a 1x1 matrix"
+#~ msgstr "Giá trị phải là ma trận 1x1 hoặc vô hướng"
+
+#~ msgid "[[FUNCTION_NAME]] expects non-empty ranges for both parameters."
+#~ msgstr "[[FUNCTION_NAME]] cần phạm vi không trống cho cả hai tham số."
+
+#~ msgid "[[FUNCTION_NAME]] needs at least two values for both parameters."
+#~ msgstr "[[FUNCTION_NAME]] cần ít nhất hai giá trị cho cả hai tham số."

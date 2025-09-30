@@ -5,7 +5,7 @@
 # Translators:
 # Noma Yuki, 2024
 # Martin Trigaux, 2024
-# Ryoko Tsuda <ryoko@quartile.co>, 2024
+# Ryoko Tsuda <ryoko@quartile.co>, 2024, 2025.
 # Tiffany Chang, 2024
 # Wil Odoo, 2025
 # Junko Augias, 2025
@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-08 18:37+0000\n"
-"PO-Revision-Date: 2025-08-18 12:31+0000\n"
-"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
+"POT-Creation-Date: 2025-08-29 18:37+0000\n"
+"PO-Revision-Date: 2025-09-18 01:30+0000\n"
+"Last-Translator: Ryoko Tsuda <ryoko@quartile.co>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-18/"
 "point_of_sale/ja/>\n"
 "Language: ja\n"
@@ -1805,6 +1805,12 @@ msgstr "オーダを選択"
 #: model:ir.model.fields,help:point_of_sale.field_res_config_settings__point_of_sale_ticket_portal_url_display_mode
 msgid "Choose how the URL to the portal will be print on the receipt."
 msgstr "ポータルサイトのURLをレシートにどのように印刷するかを選択します。"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/product_screen/control_buttons/control_buttons.js:0
+msgid "Choose the tax you want to apply"
+msgstr ""
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -4684,7 +4690,7 @@ msgstr "によって開かれました"
 #. odoo-javascript
 #: code:addons/point_of_sale/static/src/app/navbar/closing_popup/closing_popup.xml:0
 msgid "Opening"
-msgstr "オープニング"
+msgstr "開始残高"
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -5388,12 +5394,6 @@ msgstr "バックエンドから請求書を印刷してください"
 #: code:addons/point_of_sale/models/pos_order.py:0
 msgid "Please provide a partner for the sale."
 msgstr "販売のためのパートナを提供して下さい。"
-
-#. module: point_of_sale
-#. odoo-javascript
-#: code:addons/point_of_sale/static/src/app/screens/product_screen/control_buttons/control_buttons.js:0
-msgid "Please register the voucher number"
-msgstr "クーポン番号を登録して下さい。"
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -9355,3 +9355,6 @@ msgstr "ボタンを有効化します。"
 #: model_terms:ir.ui.view,arch_db:point_of_sale.report_invoice_document
 msgid "using"
 msgstr "を使用して"
+
+#~ msgid "Please register the voucher number"
+#~ msgstr "クーポン番号を登録して下さい。"

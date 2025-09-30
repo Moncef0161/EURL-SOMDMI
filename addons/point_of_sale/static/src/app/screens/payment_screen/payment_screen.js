@@ -326,7 +326,7 @@ export class PaymentScreen extends Component {
             }
         } catch (error) {
             if (error instanceof ConnectionLostError) {
-                this.pos.showScreen(this.nextScreen);
+                this.afterOrderValidation();
                 Promise.reject(error);
             } else if (error instanceof RPCError) {
                 this.currentOrder.state = "draft";
@@ -387,6 +387,10 @@ export class PaymentScreen extends Component {
 
         if (switchScreen) {
             this.pos.showScreen(nextScreen);
+        }
+
+        if (!this.pos.config.module_pos_restaurant) {
+            this.pos.checkPreparationStateAndSentOrderInPreparation(this.currentOrder);
         }
     }
     selectNextOrder() {

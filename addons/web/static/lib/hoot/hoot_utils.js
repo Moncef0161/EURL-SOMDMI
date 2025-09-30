@@ -10,7 +10,6 @@ import {
     R_WHITE_SPACE,
     toSelector,
 } from "@web/../lib/hoot-dom/hoot_dom_utils";
-import { DiffMatchPatch } from "./lib/diff_match_patch";
 import { getRunner } from "./main_runner";
 
 /**
@@ -551,9 +550,6 @@ const R_CLASS = /^[A-Z][a-z]/;
 const R_NAMED_FUNCTION = /^\s*(async\s+)?function/;
 const R_INVISIBLE_CHARACTERS = /[\u00a0\u200b-\u200d\ufeff]/g;
 const R_OBJECT = /^\[object ([\w-]+)\]$/;
-
-const dmp = new DiffMatchPatch();
-const { DIFF_INSERT, DIFF_DELETE } = DiffMatchPatch;
 
 const labelObjects = new WeakSet();
 const objectConstructors = new Map();
@@ -1259,7 +1255,9 @@ export function makeRuntimeHook(name) {
                 valid ||= Boolean(last.global);
             }
             if (!valid) {
-                throw new HootError(`cannot call "${name}" callback outside of a suite`);
+                throw new HootError(`cannot call "${name}" callback outside of a suite`, {
+                    level: "critical",
+                });
             }
             return runner[name](...callbacks);
         },
@@ -1768,6 +1766,22 @@ export class ElementMap extends Map {
 
 export class HootError extends Error {
     name = "HootError";
+    /** @type {keyof typeof import("./core/logger").ISSUE_LEVELS} */
+    level;
+
+    /**
+     *
+     * @param {string} [message]
+     * @param {ErrorOptions & {
+     *  level?: keyof typeof import("./core/logger").ISSUE_LEVELS;
+     * }} [options]
+     */
+    constructor(message, options) {
+        super(message, options);
+
+        // See 'logger.js' for details on each issue level
+        this.level = options?.level;
+    }
 }
 
 /** @template [T=string] */
@@ -1795,12 +1809,17 @@ export class Markup {
      * @param {unknown} actual
      */
     static diff(expected, actual) {
+        if (!window.DiffMatchPatch) {
+            return null;
+        }
         const eType = typeof expected;
         if (eType !== typeof actual || !((expected && eType === "object") || eType === "string")) {
             // Cannot diff
             return null;
         }
-        let hasDiff;
+        let hasDiff = false;
+        const { DIFF_INSERT, DIFF_DELETE } = window.DiffMatchPatch;
+        const dmp = new window.DiffMatchPatch();
         const diff = dmp
             .diff_main(formatTechnical(expected), formatTechnical(actual))
             .map((diff) => {

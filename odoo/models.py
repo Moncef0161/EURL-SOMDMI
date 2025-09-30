@@ -4125,6 +4125,7 @@ class BaseModel(metaclass=MetaModel):
         This method is implemented thanks to methods :meth:`_search` and
         :meth:`_fetch_query`, and should not be overridden.
         """
+        self = self._origin  # noqa: PLW0642 filtered out new records
         if not self or not field_names:
             return
 
@@ -4403,15 +4404,16 @@ class BaseModel(metaclass=MetaModel):
             root_company_msg = _lt("- Only a root company can be set on “%(record)s”. Currently set to “%(company)s”")
             for record, name, corecords in inconsistencies[:5]:
                 if record._name == 'res.company':
-                    msg, company = company_msg, record
+                    msg, companies = company_msg, record
                 elif record == corecords and name == 'company_id':
-                    msg, company = root_company_msg, record.company_id
+                    msg, companies = root_company_msg, record.company_id
                 else:
-                    msg, company = record_msg, record.company_id
+                    msg = record_msg
+                    companies = record.company_id if 'company_id' in record else record.company_ids
                 field = self.env['ir.model.fields']._get(self._name, name)
                 lines.append(str(msg) % {
                     'record': record.display_name,
-                    'company': company.display_name,
+                    'company': ", ".join(company.display_name for company in companies),
                     'field': field.field_description,
                     'fname': field.name,
                     'values': ", ".join(repr(rec.display_name) for rec in corecords),
@@ -5247,7 +5249,7 @@ class BaseModel(metaclass=MetaModel):
                     self.env.cache.set(record, field, field.convert_to_cache(None, record))
             for fname, value in vals.items():
                 field = self._fields[fname]
-                if field.type in ('one2many', 'many2many'):
+                if field.type in ('one2many', 'many2many', 'html'):
                     cachetoclear.append((record, field))
                 else:
                     cache_value = field.convert_to_cache(value, record)

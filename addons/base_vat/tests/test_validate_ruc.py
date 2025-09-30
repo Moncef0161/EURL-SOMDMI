@@ -148,6 +148,32 @@ class TestStructure(TransactionCase):
         with self.assertRaisesRegex(ValidationError, msg):
             test_partner.write({'vat': '0123457890-11134'})
 
+    def test_vat_tw(self):
+        test_partner = self.env["res.partner"].create({"name": "TW Company", "country_id": self.env.ref("base.tw").id})
+
+        for ubn in ['88117254', '12345601', '90183275']:
+            test_partner.vat = ubn
+
+        for ubn in ['88117250', '12345600', '90183272']:
+            with self.assertRaises(ValidationError):
+                test_partner.vat = ubn
+
+    def test_vat_with_el_prefix(self):
+        """Ensure VAT numbers starting with 'EL' are validated correctly as Greek VATs"""
+        partner = self.env['res.partner'].create({
+            'name': 'Greek Company EL',
+            'country_id': self.env.ref('base.gr').id,
+            'vat': 'EL033910442',
+        })
+        vat_country, vat_id_no = partner._split_vat(partner.vat)
+        vat_is_valid = partner.simple_vat_check(vat_country, vat_id_no)
+
+        self.assertTrue(
+            vat_is_valid,
+            f"Expected EL-prefixed VAT ({partner.vat}) to be recognized as valid Greek VAT, "
+            f"but simple_vat_check({vat_country}, {vat_id_no}) returned False."
+        )
+
 
 @tagged('-standard', 'external')
 class TestStructureVIES(TestStructure):

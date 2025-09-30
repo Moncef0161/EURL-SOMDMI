@@ -261,7 +261,7 @@ export class PosOrder extends Base {
             label_discounts: _t("Discounts"),
             show_rounding: !floatIsZero(order_rounding, this.currency.decimal_places),
             order_rounding: order_rounding,
-            show_change: !floatIsZero(order_change, this.currency.decimal_places),
+            show_change: !floatIsZero(order_change, this.currency.decimal_places) && this.finalized,
             order_change: order_change,
             paymentlines,
             amount_total: this.get_total_with_tax(),
@@ -368,6 +368,7 @@ export class PosOrder extends Base {
         this.last_order_preparation_change.metadata = {
             serverDate: serializeDateTime(DateTime.now()),
         };
+        this.setDirty();
     }
 
     hasSkippedChanges() {
@@ -505,7 +506,8 @@ export class PosOrder extends Base {
                 }),
                 pricelist,
                 this.models["decimal.precision"].getAll(),
-                this.models["product.template.attribute.value"].getAllBy("id")
+                this.models["product.template.attribute.value"].getAllBy("id"),
+                this.config_id.currency_id
             );
         }
         const combo_children_lines = this.lines.filter(
@@ -1033,6 +1035,10 @@ export class PosOrder extends Base {
         } else {
             return true;
         }
+    }
+
+    canBeValidated() {
+        return this.is_paid() && this._isValidEmptyOrder();
     }
 
     _generateTicketCode() {

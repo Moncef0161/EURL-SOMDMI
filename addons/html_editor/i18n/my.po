@@ -1,19 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* html_editor
+# * html_editor
 #
+# Oakarmin Iron <oakarminiron@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-14 20:47+0000\n"
-"PO-Revision-Date: 2025-05-14 20:47+0000\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2025-09-29 22:21+0000\n"
+"Last-Translator: Oakarmin Iron <oakarminiron@gmail.com>\n"
+"Language-Team: Burmese <https://translate.odoo.com/projects/odoo-18/"
+"html_editor/my/>\n"
+"Language: my\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #. module: html_editor
 #. odoo-javascript
@@ -119,7 +123,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/media/media_dialog/media_dialog.xml:0
 msgid "Add"
-msgstr ""
+msgstr "ထည့်"
 
 #. module: html_editor
 #. odoo-javascript
@@ -180,7 +184,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/media/media_dialog/file_selector.xml:0
 msgid "All"
-msgstr ""
+msgstr "အားလုံး"
 
 #. module: html_editor
 #. odoo-javascript
@@ -259,7 +263,7 @@ msgstr ""
 #: code:addons/html_editor/static/src/main/font/color_plugin.js:0
 #: code:addons/html_editor/static/src/main/media/icon_plugin.js:0
 msgid "Background Color"
-msgstr ""
+msgstr "နောက်ခံ အရောင်"
 
 #. module: html_editor
 #. odoo-javascript
@@ -337,7 +341,7 @@ msgstr ""
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_translate_dialog.xml:0
 #: code:addons/html_editor/static/src/others/embedded_components/plugins/video_plugin/video_selector_dialog/video_selector_dialog.xml:0
 msgid "Cancel"
-msgstr ""
+msgstr "ပယ်ဖျက်"
 
 #. module: html_editor
 #. odoo-javascript
@@ -368,13 +372,13 @@ msgstr ""
 #: code:addons/html_editor/static/src/main/media/media_dialog/upload_progress_toast/upload_progress_toast.xml:0
 #: code:addons/html_editor/static/src/others/embedded_components/core/file/readonly_file.js:0
 msgid "Close"
-msgstr ""
+msgstr "ပိတ်"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/font/font_plugin.js:0
 msgid "Code"
-msgstr ""
+msgstr "ကုဒ်"
 
 #. module: html_editor
 #. odoo-javascript
@@ -398,7 +402,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/components/history_dialog/history_dialog.js:0
 msgid "Content"
-msgstr ""
+msgstr "ပါဝင်သောအကြောင်းအရာ"
 
 #. module: html_editor
 #. odoo-javascript
@@ -507,13 +511,13 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/table/table_menu.js:0
 msgid "Delete"
-msgstr ""
+msgstr "ဖျက်"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/media/image_description.xml:0
 msgid "Description"
-msgstr ""
+msgstr "ဖော်ပြချက်"
 
 #. module: html_editor
 #. odoo-javascript
@@ -522,7 +526,7 @@ msgstr ""
 #: code:addons/html_editor/static/src/main/media/image_description.xml:0
 #: code:addons/html_editor/static/src/main/media/media_dialog/media_dialog.xml:0
 msgid "Discard"
-msgstr ""
+msgstr "မလုပ်တော့"
 
 #. module: html_editor
 #. odoo-javascript
@@ -555,7 +559,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/others/x2many_image_field.xml:0
 msgid "Edit"
-msgstr ""
+msgstr "ပြင်"
 
 #. module: html_editor
 #. odoo-javascript
@@ -874,7 +878,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/media/media_plugin.js:0
 msgid "Icon"
-msgstr ""
+msgstr "အိုင်ကွန်"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1122,7 +1126,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/media/media_dialog/file_selector.xml:0
 msgid "Load more..."
-msgstr ""
+msgstr "ထပ်တင်ရန်..."
 
 #. module: html_editor
 #. odoo-javascript
@@ -1155,7 +1159,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.js:0
 msgid "Medium"
-msgstr ""
+msgstr "တဆင့် (သို့) ကြားခံ"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1337,7 +1341,7 @@ msgstr ""
 #: code:addons/html_editor/static/src/main/link/link_popover.xml:0
 #: code:addons/html_editor/static/src/main/media/media_dialog/video_selector.xml:0
 msgid "Preview"
-msgstr ""
+msgstr "ပရီဗျူး"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1470,7 +1474,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/media/image_description.xml:0
 msgid "Save"
-msgstr ""
+msgstr "သိမ်း"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1554,13 +1558,13 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/signature_plugin.js:0
 msgid "Signature"
-msgstr ""
+msgstr "လက်မှတ်"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/font/gradient_picker.xml:0
 msgid "Size"
-msgstr ""
+msgstr "အရွယ်အစား"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1638,7 +1642,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/font/font_plugin.js:0
 msgid "Text"
-msgstr ""
+msgstr "စာသား"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1785,7 +1789,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/font/gradient_picker.xml:0
 msgid "Type"
-msgstr ""
+msgstr "အမျိုးအစား"
 
 #. module: html_editor
 #. odoo-javascript
@@ -2003,7 +2007,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.xml:0
 msgid "or"
-msgstr ""
+msgstr "သို့မဟုတ်"
 
 #. module: html_editor
 #. odoo-javascript
