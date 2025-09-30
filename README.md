@@ -22,16 +22,29 @@ The main Odoo Apps include an [Open Source CRM](https://www.odoo.com/page/crm),
 Odoo Apps can be used as stand-alone applications, but they also integrate seamlessly so you get
 a full-featured [Open Source ERP](https://www.odoo.com) when you install several Apps.
 
-## Getting started with Odoo
+[//]: # (## Getting started with Odoo)
 
-For a standard installation please follow the [Setup instructions](https://www.odoo.com/documentation/master/administration/install/install.html)
-from the documentation.
+[//]: # ()
+[//]: # (For a standard installation please follow the [Setup instructions]&#40;https://www.odoo.com/documentation/master/administration/install/install.html&#41;)
 
-To learn the software, we recommend the [Odoo eLearning](https://www.odoo.com/slides),
-or [Scale-up, the business game](https://www.odoo.com/page/scale-up-business-game).
-Developers can start with [the developer tutorials](https://www.odoo.com/documentation/master/developer/howtos.html).
+[//]: # (from the documentation.)
 
-## Security
+[//]: # ()
+[//]: # (To learn the software, we recommend the [Odoo eLearning]&#40;https://www.odoo.com/slides&#41;,)
 
-If you believe you have found a security issue, check our [Responsible Disclosure page](https://www.odoo.com/security-report)
-for details and get in touch with us via email.
+[//]: # (or [Scale-up, the business game]&#40;https://www.odoo.com/page/scale-up-business-game&#41;.)
+
+[//]: # (Developers can start with [the developer tutorials]&#40;https://www.odoo.com/documentation/master/developer/howtos.html&#41;.)
+
+[//]: # ()
+[//]: # (## Security)
+
+[//]: # ()
+[//]: # (If you believe you have found a security issue, check our [Responsible Disclosure page]&#40;https://www.odoo.com/security-report&#41;)
+
+[//]: # (for details and get in touch with us via email.)
+
+## Changements dyalna
+
+Add 
+
