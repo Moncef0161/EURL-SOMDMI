@@ -6,9 +6,23 @@ import requests
 class CurrencyRateUpdater(models.Model):
     _inherit = 'res.currency'
 
+    rate_with_margin = fields.Float(
+        string="Rate with Margin",
+        compute="_compute_rate_with_margin",
+    )
+
+    @api.depends("rate")
+    def _compute_rate_with_margin(self):
+        margin = float(self.env["ir.config_parameter"].sudo().get_param("algerian_accounting.invoice_error_margin", 0.0))
+        for currency in self:
+            currency.rate_with_margin = currency.rate + margin
+
     @api.model
     def update_currency_rates(self):
-        url = "https://api.exchangeratesapi.io/v1/latest"
+        auto_update = access_key = self.env['ir.config_parameter'].sudo().get_param('auto_update_currency_rates')
+        if not auto_update:
+            return
+        url = self.env['ir.config_parameter'].sudo().get_param('currency_api_url')
         access_key = self.env['ir.config_parameter'].sudo().get_param('currency_api_key')
         if not access_key:
             raise ValidationError("Currency API Key is not set.")
@@ -16,9 +30,7 @@ class CurrencyRateUpdater(models.Model):
             "access_key": access_key
         }
         response = requests.get(url, params=params)
-        print(15)
         if response.status_code == 200:
-            print(17)
             data = response.json()
             rates = data.get('rates', {})
             today = fields.Date.today()
@@ -28,24 +40,19 @@ class CurrencyRateUpdater(models.Model):
 
             for currency in active_currencies:
                 if currency.name == company_currency:
-                    print(27)
                     rate = 1.0
                 else:
                     if company_currency == "EUR":  # return ta3 api daymen b euro donc on traite had le cas separement
-                        print(31)
                         rate = rates.get(currency.name)
                     else:
-                        print(34)
                         eur_to_target = rates.get(currency.name)
                         eur_to_company = rates.get(company_currency)
                         if eur_to_target and eur_to_company:
                             rate = eur_to_target / eur_to_company
                         else:
-                            print(40)
                             rate = None
 
                 if rate:
-                    print(44)
                     rate_model = self.env['res.currency.rate']
                     existing_rate = rate_model.search([
                         ('currency_id', '=', currency.id),
@@ -54,16 +61,13 @@ class CurrencyRateUpdater(models.Model):
                     ], limit=1)
 
                     if existing_rate:
-                        print(53)
                         existing_rate.rate = rate
                     else:
-                        print(56)
                         rate_model.sudo().create({
                             'currency_id': currency.id,
                             'rate': rate,
                             'name': today,
                             'company_id': self.env.company.id
                         })
-                        print(63)
 
 

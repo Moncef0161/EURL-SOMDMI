@@ -1,1 +1,1 @@
-from . import res_company, res_partner, res_currency
+from . import res_company, res_partner, res_currency, res_config_settings
