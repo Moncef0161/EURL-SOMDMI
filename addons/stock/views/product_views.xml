@@ -609,7 +609,7 @@
             <field name="res_model">product.template</field>
             <field name="view_mode">kanban,list,form</field>
             <field name="search_view_id" ref="product_template_search_form_view_stock"/>
-            <field name="context">{"search_default_goods": 1, 'default_is_storable': True}</field>
+            <field name="context">{"search_default_repair_ok": 1, 'default_is_storable': True}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     No product found. Let's create one!
