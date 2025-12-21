@@ -10,4 +10,6 @@
         'data/ir_cron_currency_update.xml',
     ],
     'post_init_hook': 'populate_algeria_wilayas',
+    "installable": True,
+    "auto_install": True,
 }

@@ -1,0 +1,11 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fr\n"
+
+#. module: repair
+#: model:ir.ui.menu,name:repair.menu_repair_order
+msgid "Workshop"
+msgstr "Atelier"
