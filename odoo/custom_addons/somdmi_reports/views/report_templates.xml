@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Boxed Layout -->
+    <template id="external_layout_boxed_somdmi" inherit_id="web.external_layout_boxed">
+        <xpath expr="//div[contains(@t-attf-class, 'header')]" position="replace">
+            <div t-attf-class="header o_company_#{company.id}_layout"
+                t-att-style="report_header_style">
+                <div class="row mb-2">
+                    <div class="col-8">
+                        <div class="fs-5 fw-bold text-uppercase">
+                            <span t-field="company.name" />
+                        </div>
+                        <div t-if="company.report_header" class="fw-bold">
+                            <span t-field="company.report_header" />
+                        </div>
+                        <div class="fw-bold">
+                            <span t-if="company.partner_id.street"
+                                t-field="company.partner_id.street" />
+                            <span t-if="company.partner_id.street2"
+                                t-field="company.partner_id.street2" />
+                            <span t-if="company.partner_id.city" t-field="company.partner_id.city" />
+                            <span t-if="company.partner_id.state_id"
+                                t-field="company.partner_id.state_id.name" />
+                            <span t-if="company.partner_id.country_id"
+                                t-field="company.partner_id.country_id.name" />
+                        </div>
+                        <div t-if="company.email"
+                            class="fw-bold text-decoration-underline">
+                            <span t-field="company.email" />
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                            class="img-fluid" style="max-height: 100px;" alt="Logo" />
+                    </div>
+                </div>
+
+                <div class="row mt-2 fw-bold small text-nowrap">
+                    <div class="col-3"> N° RC : <span t-field="company.nrc" /></div>
+                    <div class="col-3"> N° Art : <span t-field="company.nart" /></div>
+                    <div class="col-3"> N° IF : <span t-field="company.nif" /></div>
+                    <div class="col-3 text-end"> N° IS : <span t-field="company.nis" /></div>
+                </div>
+
+                <div class="row small">
+                    <div class="col-12">
+                        <span t-field="company.rib" />
+                    </div>
+                </div>
+
+                <div class="border-bottom border-3 border-dark mt-1"
+                    style="border-style: double !important;"></div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'article')]" position="replace">
+            <div
+                t-attf-class="article o_report_layout_boxed o_table_boxed o_company_#{company.id}_layout o_snail_mail {{'o_report_layout_background' if company.layout_background != 'Blank' else ''}}"
+                t-attf-style="{{ 'background-image: url(%s);' % layout_background_url if layout_background_url else '' }}"
+                t-att-data-oe-model="o and o._name"
+                t-att-data-oe-id="o and o.id"
+                t-att-data-oe-lang="o and o.env.context.get('lang')">
+
+                <div class="row mt-4 mb-4">
+                    <div class="col-6">
+                        <h2 t-out="layout_document_title" />
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-auto">
+                                <strong class="fs-6">Doit :</strong>
+                            </div>
+                            <div class="col text-end fw-bold fs-6">
+                                <span t-if="company.state_id" t-field="company.state_id.name" /><t
+                                    t-if="company.state_id">, </t>le <t
+                                    t-if="o and 'date_order' in o._fields">
+                                    <span t-field="o.date_order" t-options='{"widget": "date"}' />
+                                </t>
+                                <t
+                                    t-elif="o and 'invoice_date' in o._fields">
+                                    <span t-field="o.invoice_date" t-options='{"widget": "date"}' />
+                                </t>
+                                <t
+                                    t-elif="o">
+                                    <span t-field="o.create_date" t-options='{"widget": "date"}' />
+                                </t>
+                                <t
+                                    t-else="">
+                                    <span t-out="datetime.date.today().strftime('%d/%m/%Y')" />
+                                </t>
+                            </div>
+                        </div>
+
+                        <t t-if="o and o.partner_id">
+                            <div t-if="'ref' in o.partner_id and o.partner_id.ref" class="mb-1">
+                                <span t-field="o.partner_id.ref" />
+                            </div>
+                            <div
+                                class="fw-bold text-decoration-underline text-uppercase fs-6 mb-1">
+                                <span t-field="o.partner_id.name" />
+                            </div>
+                            <div class="fw-bold text-uppercase">
+                                <span t-field="o.partner_id.street" />
+                                <span
+                                    t-if="o.partner_id.street2">
+                                    <span t-field="o.partner_id.street2" />
+                                </span>
+                                <span
+                                    t-if="o.partner_id.city">
+                                    <span t-field="o.partner_id.city" />
+                                </span>
+                                <span
+                                    t-if="o.partner_id.state_id">
+                                    <span t-field="o.partner_id.state_id.name" />
+                                </span>
+                                <t
+                                    t-if="o.partner_id.state_id and o.partner_id.state_id.code"> (<span
+                                        t-out="o.partner_id.state_id.code" />) </t> . </div>
+
+                            <div class="small pt-1 mt-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>N.R.C :</strong>
+                                        <span t-field="o.partner_id.nrc" />
+                                    </div>
+                                    <div class="col-6">
+                                        <strong>N.I.S :</strong>
+                                        <span t-field="o.partner_id.nis" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>N.I.F :</strong>
+                                        <span t-field="o.partner_id.nif" />
+                                    </div>
+                                    <div class="col-6">
+                                        <strong>N.A.I :</strong>
+                                        <span t-field="o.partner_id.nart" />
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-elif="not o">
+                            <!-- Placeholder for Layout Preview -->
+                            <div class="fw-bold text-decoration-underline text-uppercase fs-6 mb-1">
+                                NOM DU CLIENT
+                            </div>
+                            <div class="fw-bold text-uppercase">
+                                ADRESSE DU CLIENT, VILLE, ALGER (16).
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <t t-out="0" />
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_saleorder_document_somdmi" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@name='informations_date']" position="replace" />
+        <xpath expr="//div[@id='informations']/div[last()]" position="replace">
+            <!-- This XPath targets and removes the salesperson information div -->
+        </xpath>
+    </template>
+
+    <template id="report_invoice_document_somdmi" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@name='invoice_date']" position="replace">
+        </xpath>
+    </template>
+</odoo>
