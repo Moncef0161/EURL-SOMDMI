@@ -10,7 +10,9 @@ Ce module renomme le module de Réparation en Atelier et personnalise ses menus.
     'author': 'Moncef',
     'depends': ['repair'],
     'data': [
+        'security/ir.model.access.csv',
         'views/repair_menus.xml',
+        'views/repair_views.xml'
     ],
     'installable': True,
     'application': False,

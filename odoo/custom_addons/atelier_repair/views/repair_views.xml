@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_repair_order_form_inherit_breakdown" model="ir.ui.view">
+        <field name="name">repair.order.form.inherit.breakdown</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='parts']" position="before">
+                <page string="Pannes" name="breakdowns">
+                    <group>
+                        <field name="declared_breakdown_ids" widget="many2many_tags"
+                            options="{'no_create_edit': False}" />
+                        <field name="actual_breakdown_ids" widget="many2many_tags"
+                            options="{'no_create_edit': False}" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
