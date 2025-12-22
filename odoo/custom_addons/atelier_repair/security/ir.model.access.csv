@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_repair_breakdown_user,repair.breakdown,model_repair_breakdown,stock.group_stock_user,1,1,1,1
+access_repair_checklist_line_user,repair.checklist.line,model_repair_checklist_line,stock.group_stock_user,1,1,1,1

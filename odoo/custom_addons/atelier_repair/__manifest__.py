@@ -12,7 +12,8 @@ Ce module renomme le module de Réparation en Atelier et personnalise ses menus.
     'data': [
         'security/ir.model.access.csv',
         'views/repair_menus.xml',
-        'views/repair_views.xml'
+        'views/repair_views.xml',
+        'report/repair_checklist_report.xml',
     ],
     'installable': True,
     'application': False,

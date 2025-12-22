@@ -5,6 +5,15 @@
         <field name="model">repair.order</field>
         <field name="inherit_id" ref="repair.view_repair_order_form" />
         <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(atelier_repair.action_report_repair_checklist)d"
+                    string="Imprimer Fiche de Contrôle"
+                    type="action"
+                    invisible="not checklist_ids and machine_type != 'bout_a_bout'" />
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="machine_type" />
+            </xpath>
             <xpath expr="//page[@name='parts']" position="before">
                 <page string="Pannes" name="breakdowns">
                     <group>
@@ -13,6 +22,140 @@
                         <field name="actual_breakdown_ids" widget="many2many_tags"
                             options="{'no_create_edit': False}" />
                     </group>
+                </page>
+                <page string="Fiche de Contrôle" name="checklist">
+                    <!-- Electrofusion Layout -->
+                    <div invisible="machine_type != 'electrofusion'">
+                        <group>
+                            <group>
+                                <field name="check_all_conforme" string="Tout Conforme" />
+                                <field name="check_all_nc" string="Tout N.C" />
+                                <field name="check_all_corrige" string="Tout Corrigé" />
+                            </group>
+                        </group>
+                        <field name="checklist_ids" nolabel="1">
+                            <list editable="bottom">
+                                <field name="name" string="Section" />
+                                <field name="section" string="Opération" />
+                                <field name="is_conforme" />
+                                <field name="is_nc" />
+                                <field name="is_corrige" />
+                                <field name="observation" />
+                            </list>
+                        </field>
+                    </div>
+
+                    <!-- Bout à Bout Layout (Hardcoded) -->
+                    <div invisible="machine_type != 'bout_a_bout'">
+                        <group col="4">
+                            <field name="bb_serie_no" />
+                            <field name="bb_decharge_no" />
+                            <field name="partner_id" string="CLIENT" readonly="1" />
+                            <field name="bb_date_reparation" />
+                        </group>
+
+                        <separator string="Diagnostique de la machine" />
+                        <p>Problèmes au niveau de :</p>
+                        <group col="6">
+                            <field name="bb_diag_alimentation" />
+                            <field name="bb_diag_pression" />
+                            <field name="bb_diag_deplacement" />
+                            <field name="bb_diag_temperature" />
+                            <field name="bb_diag_clavier" />
+                            <field name="bb_diag_autre" />
+                        </group>
+
+                        <separator string="ETAPES CHRONOLOGIQUES" />
+                        <group col="2">
+                            <field name="bb_chrono_deplacement" widget="radio"
+                                options="{'horizontal': true}" />
+                            <field name="bb_chrono_pression" widget="radio"
+                                options="{'horizontal': true}" />
+                            <field name="bb_chrono_element_chauffant" widget="radio"
+                                options="{'horizontal': true}" />
+                            <field name="bb_chrono_rabot" widget="radio"
+                                options="{'horizontal': true}" />
+                            <field name="bb_chrono_bati" widget="radio"
+                                options="{'horizontal': true}" />
+                        </group>
+
+                        <group col="4">
+                            <field name="bb_cycle_soudage" />
+                            <field name="bb_diam" />
+                            <field name="bb_conforme" />
+                            <field name="bb_impression_donnees" />
+                        </group>
+                        <field name="bb_remarque" placeholder="Remarque..." />
+
+                        <separator string="Contrôles du Bâti" />
+                        <group col="2">
+                            <field name="bb_bati_connexions" />
+                            <field name="bb_bati_ecrous" />
+                            <field name="bb_bati_surfaces" />
+                            <field name="bb_bati_plaque" />
+                        </group>
+
+                        <separator string="Contrôles du Rabot" />
+                        <group col="2">
+                            <field name="bb_rabot_etat" />
+                            <field name="bb_rabot_lames" />
+                            <field name="bb_rabot_translation" />
+                        </group>
+
+                        <separator string="Contrôles de l'Elément Chauffant" />
+                        <group col="2">
+                            <field name="bb_chauffant_surface" />
+                            <field name="bb_chauffant_mecanique" />
+                            <field name="bb_chauffant_carter" />
+                        </group>
+
+                        <separator string="Contrôles de l'Unité Hydraulique" />
+                        <group col="2">
+                            <field name="bb_hydraulique_boutons" />
+                            <field name="bb_hydraulique_fixation" />
+                            <field name="bb_hydraulique_flexibles" />
+                            <field name="bb_hydraulique_huile" />
+                        </group>
+
+                        <separator string="Contrôles du Moniteur Informatisé" />
+                        <group col="2">
+                            <field name="bb_moniteur_etat" />
+                        </group>
+
+                        <separator string="Contrôles de l'Unité Hydraulique (machine manuelle)" />
+                        <group col="2">
+                            <field name="bb_manuelle_levier" />
+                            <field name="bb_manuelle_regulateur" />
+                            <field name="bb_manuelle_bypass" />
+                        </group>
+
+                        <separator string="Pressions manomètre de contrôle (Bar)" />
+                        <group col="4">
+                            <label for="bb_pres_5" string="5 Bar (4,5 - 5,5)" />
+                            <field name="bb_pres_5" nolabel="1" />
+                            <label for="bb_pres_10" string="10 Bar (9,0 - 11,0)" />
+                            <field name="bb_pres_10" nolabel="1" />
+                            <label for="bb_pres_15" string="15 Bar (13,5 - 16,5)" />
+                            <field name="bb_pres_15" nolabel="1" />
+                            <label for="bb_pres_30" string="30 Bar (27,0 - 33,0)" />
+                            <field name="bb_pres_30" nolabel="1" />
+                            <label for="bb_pres_50" string="50 Bar (46,5 - 53,5)" />
+                            <field name="bb_pres_50" nolabel="1" />
+                            <label for="bb_pres_75" string="75 Bar (69,75 - 80,25)" />
+                            <field name="bb_pres_75" nolabel="1" />
+                            <label for="bb_pres_100" string="100 Bar (93,00 - 107,0)" />
+                            <field name="bb_pres_100" nolabel="1" />
+                        </group>
+
+                        <separator string="Machine Automatique : Contrôle du soudage" />
+                        <group col="2">
+                            <field name="bb_auto_cycle" />
+                            <field name="bb_auto_bourrelet" />
+                            <field name="bb_auto_ticket" />
+                        </group>
+
+                        <field name="bb_observations" placeholder="Observations / Evolutions..." />
+                    </div>
                 </page>
             </xpath>
         </field>
