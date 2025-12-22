@@ -247,7 +247,7 @@
                             <div class="row mt16">
                                 <div class="col-6"> Cycle de soudage : <span
                                         t-field="o.bb_cycle_soudage" /><br /> Impressionnes données
-                                    : <span t-if="o.bb_impression_donnees">X</span><br /> de
+                                    : <span t-if="o.bb_impression_donnees">X</span><br />Date de
                                     réparation : <span t-field="o.bb_date_reparation" />
                                 </div>
                                 <div class="col-6"> DIAM : <span t-field="o.bb_diam" /><br />
