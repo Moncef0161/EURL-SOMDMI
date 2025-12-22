@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_repair_reception" model="ir.sequence">
+            <field name="name">Bon de Réception</field>
+            <field name="code">repair.reception.seq</field>
+            <field name="prefix"></field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False" />
+        </record>
+
+        <record id="seq_repair_livraison" model="ir.sequence">
+            <field name="name">Bon de Livraison Objet</field>
+            <field name="code">repair.livraison.seq</field>
+            <field name="prefix"></field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False" />
+        </record>
+    </data>
+</odoo>

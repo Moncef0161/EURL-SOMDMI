@@ -14,6 +14,10 @@
             <xpath expr="//field[@name='product_id']" position="after">
                 <field name="machine_type" />
             </xpath>
+            <xpath expr="//field[@name='move_ids']/list/field[@name='product_uom']" position="after">
+                <field name="price_unit" />
+                <field name="tax_id" widget="many2many_tags" />
+            </xpath>
             <xpath expr="//page[@name='parts']" position="before">
                 <page string="Pannes" name="breakdowns">
                     <group>
@@ -224,6 +228,39 @@
 
                         <field name="bb_observations" placeholder="Observations / Evolutions..." />
                     </div>
+                </page>
+                <page string="Documents" name="documents">
+                    <group>
+                        <group string="Bon de Réception">
+                            <field name="reception_no" />
+                            <field name="devis_approx" />
+                            <button name="action_generate_reception_no"
+                                string="Générer N° Réception" type="object" class="btn-secondary"
+                                invisible="reception_no" />
+                        </group>
+                        <group string="Bon de Livraison">
+                            <field name="livraison_no" />
+                            <field name="mode_paiement" />
+                            <field name="timbre" />
+                            <field name="etabli_par" />
+                            <button name="action_generate_livraison_no"
+                                string="Générer N° Livraison" type="object" class="btn-secondary"
+                                invisible="livraison_no" />
+                        </group>
+                    </group>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="amount_untaxed" widget="monetary"
+                            options="{'currency_field': 'currency_id'}" />
+                        <field name="amount_tax" widget="monetary"
+                            options="{'currency_field': 'currency_id'}" />
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                            <label for="amount_total" />
+                        </div>
+                        <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator"
+                            widget="monetary" options="{'currency_field': 'currency_id'}" />
+                        <field name="amount_net_payer" widget="monetary"
+                            options="{'currency_field': 'currency_id'}" />
+                    </group>
                 </page>
             </xpath>
         </field>

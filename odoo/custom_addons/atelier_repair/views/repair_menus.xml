@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="repair.menu_repair_order" name="Workshop" />
+    <menuitem id="repair.menu_repair_order" name="Atelier" />
+
+    <!-- Clients Dropdown -->
+    <menuitem id="menu_atelier_clients_root" name="Clients" parent="repair.menu_repair_order"
+        sequence="15" />
+
+    <menuitem id="menu_atelier_clients" name="Clients" parent="menu_atelier_clients_root"
+        action="base.action_partner_form" sequence="10" />
+
+    <menuitem id="menu_atelier_reception" name="Bons de Réception"
+        parent="menu_atelier_clients_root" action="repair.action_repair_order_tree" sequence="20" />
+
+    <menuitem id="menu_atelier_livraison" name="Bons de Livraison"
+        parent="menu_atelier_clients_root" action="repair.action_repair_order_tree" sequence="30" />
 </odoo>

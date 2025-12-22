@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_repair_reception" model="ir.actions.report">
+        <field name="name">Bon de Réception</field>
+        <field name="model">repair.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">atelier_repair.report_reception_template</field>
+        <field name="report_file">atelier_repair.report_reception_template</field>
+        <field name="print_report_name">'Bon de Reception - %s' % (object.reception_no or
+            object.name)</field>
+        <field name="binding_model_id" ref="repair.model_repair_order" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_repair_livraison" model="ir.actions.report">
+        <field name="name">Bon de Livraison Objet</field>
+        <field name="model">repair.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">atelier_repair.report_livraison_template</field>
+        <field name="report_file">atelier_repair.report_livraison_template</field>
+        <field name="print_report_name">'Bon de Livraison - %s' % (object.livraison_no or
+            object.name)</field>
+        <field name="binding_model_id" ref="repair.model_repair_order" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_reception_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style>
+                            .somdmi-table { width: 100%; border-collapse: collapse; margin-top:
+                            20px; }
+                            .somdmi-table th, .somdmi-table td { border: 1px solid black; padding:
+                            5px; font-size: 12px; }
+                            .somdmi-table th { background-color: #e0f2f1; text-align: center; }
+                            .barcode-container { text-align: left; margin-bottom: 10px; }
+                        </style>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="fw-bold">BON DE RECEPTION N°: <span
+                                        t-field="o.reception_no" /></h3>
+                                <div class="barcode-container">
+                                    <div t-field="o.reception_no"
+                                        t-options="{'widget': 'barcode', 'width': 400, 'height': 100, 'img_style': 'width:200px;height:50px;'}" />
+                                    <div t-field="o.reception_no" />
+                                </div>
+                                <div t-if="o.etabli_par">établi par : <span
+                                        t-field="o.etabli_par.name" /></div>
+                            </div>
+                            <div class="col-6 text-end">
+                                <div class="fw-bold">Alger, le : <span
+                                        t-out="time.strftime('%d/%m/%Y')" /></div>
+                                <div class="mt-4 text-start border p-2" style="min-height: 100px;">
+                                    <strong>Doit : </strong>
+                                    <span t-field="o.partner_id.name" />
+                                    <br />
+                                    <span t-field="o.partner_id.phone" />
+                                    <br />
+                                    <span t-field="o.partner_id.street" />
+                                    <span t-field="o.partner_id.city" />
+                                    <br />
+                                    <div class="row mt-2 small">
+                                        <div class="col-6">N.R.C : <span t-field="o.partner_id.nrc" /></div>
+                                        <div class="col-6">N.I.S : <span t-field="o.partner_id.nis" /></div>
+                                        <div class="col-6">N.I.F : <span t-field="o.partner_id.nif" /></div>
+                                        <div class="col-6">N.A.I : <span t-field="o.partner_id.nart" /></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="somdmi-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%;">N°</th>
+                                    <th style="width: 15%;">Code objet</th>
+                                    <th style="width: 25%;">Description de l'objet</th>
+                                    <th style="width: 15%;">N° de serie</th>
+                                    <th style="width: 15%;">Pannes déclarées</th>
+                                    <th style="width: 10%;">Devis approx.</th>
+                                    <th style="width: 15%;">Observation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">
+                                        <div t-if="o.product_id.barcode"
+                                            t-field="o.product_id.barcode"
+                                            t-options="{'widget': 'barcode', 'width': 400, 'height': 100, 'img_style': 'width:100px;height:30px;'}" />
+                                        <span t-field="o.product_id.barcode" />
+                                    </td>
+                                    <td>
+                                        <span t-field="o.product_id.name" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="o.lot_id.name" />
+                                    </td>
+                                    <td>
+                                        <t t-foreach="o.declared_breakdown_ids" t-as="breakdown">
+                                            <span t-field="breakdown.name" />
+                                            <br />
+                                        </t>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="o.devis_approx" />
+                                    </td>
+                                    <td>
+                                        <span t-field="o.internal_notes" />
+                                    </td>
+                                </tr>
+                                <!-- Empty rows to fill space like in the image -->
+                                <t t-foreach="range(10)" t-as="i">
+                                    <tr style="height: 30px;">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <div>Nombre d'objets : 1</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="border p-2 text-center"
+                                    style="width: 200px; float: right;">
+                                    <strong>Versement : 0,00</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 small">
+                            <strong>NB/</strong> Dépassé le délai de la réparation la société Eurl
+                            SOMDMI décline toutes responsabilités. après la réparation ,le client
+                            dispose d'un délai de 3jours pour récupérer la machine. Au delà, des
+                            frais de stokage de 300da HT par jour seront appliqués. </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_livraison_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style>
+                            .somdmi-table { width: 100%; border-collapse: collapse; margin-top:
+                            10px; }
+                            .somdmi-table th, .somdmi-table td { border: 1px solid black; padding:
+                            5px; font-size: 11px; }
+                            .somdmi-table th { background-color: #e0f2f1; text-align: center; }
+                        </style>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="fw-bold">BON DE LIVRAISON OBJET N°: <span
+                                        t-field="o.livraison_no" /></h3>
+                                <div class="barcode-container">
+                                    <div t-field="o.livraison_no"
+                                        t-options="{'widget': 'barcode', 'width': 400, 'height': 100, 'img_style': 'width:200px;height:50px;'}" />
+                                    <div t-field="o.livraison_no" />
+                                </div>
+                                <div>Mode de paiement : <span t-field="o.mode_paiement" /></div>
+                            </div>
+                            <div class="col-6 text-end">
+                                <div class="fw-bold">Alger, le : <span
+                                        t-out="time.strftime('%d/%m/%Y')" /></div>
+                                <div class="mt-4 text-start border p-2" style="min-height: 100px;">
+                                    <strong>Doit : </strong>
+                                    <span t-field="o.partner_id.name" />
+                                    <br />
+                                    <span t-field="o.partner_id.phone" />
+                                    <br />
+                                    <span t-field="o.partner_id.street" />
+                                    <span t-field="o.partner_id.city" />
+                                    <br />
+                                    <div class="row mt-2 small">
+                                        <div class="col-6">N.R.C : <span t-field="o.partner_id.nrc" /></div>
+                                        <div class="col-6">N.I.S : <span t-field="o.partner_id.nis" /></div>
+                                        <div class="col-6">N.I.F : <span t-field="o.partner_id.nif" /></div>
+                                        <div class="col-6">N.A.I : <span t-field="o.partner_id.nart" /></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="somdmi-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%;">N°</th>
+                                    <th style="width: 15%;">Code objet</th>
+                                    <th style="width: 25%;">Description de l'objet</th>
+                                    <th style="width: 15%;">N° de serie</th>
+                                    <th style="width: 20%;">Pannes déclarées</th>
+                                    <th style="width: 20%;">Remarque</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">
+                                        <div t-if="o.product_id.barcode"
+                                            t-field="o.product_id.barcode"
+                                            t-options="{'widget': 'barcode', 'width': 400, 'height': 100, 'img_style': 'width:100px;height:30px;'}" />
+                                        <span t-field="o.product_id.barcode" />
+                                    </td>
+                                    <td>
+                                        <span t-field="o.product_id.name" />
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="o.lot_id.name" />
+                                    </td>
+                                    <td>
+                                        <t t-foreach="o.declared_breakdown_ids" t-as="breakdown">
+                                            <span t-field="breakdown.name" />
+                                            <br />
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.internal_notes" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="somdmi-table mt-2">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%;">Code produit</th>
+                                    <th style="width: 45%;">Travaux effectués et Produits fournis</th>
+                                    <th style="width: 10%;">Quantité</th>
+                                    <th style="width: 10%;">Prix HT</th>
+                                    <th style="width: 10%;">TVA</th>
+                                    <th style="width: 10%;">Prix TTC</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.move_ids" t-as="move">
+                                    <tr>
+                                        <td>
+                                            <span t-field="move.product_id.default_code" />
+                                        </td>
+                                        <td>
+                                            <span t-field="move.product_id.name" />
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="move.product_uom_qty" />
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="move.price_unit" />
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-foreach="move.tax_id" t-as="tax">
+                                                <span t-field="tax.name" />
+                                                <br />
+                                            </t>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-set="price_ttc"
+                                                t-value="move.price_unit * move.product_uom_qty" />
+                                            <t t-if="move.tax_id">
+                                                <t t-set="taxes"
+                                                    t-value="move.tax_id.compute_all(move.price_unit, o.company_id.currency_id, move.product_uom_qty, product=move.product_id, partner=o.partner_id)" />
+                                                <t t-set="price_ttc"
+                                                    t-value="taxes['total_included']" />
+                                            </t>
+                                            <span t-esc="price_ttc"
+                                                t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}' />
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr style="background-color: #e0f2f1; font-weight: bold;">
+                                    <td colspan="2" class="text-right">Totaux :</td>
+                                    <td class="text-center">
+                                        <span t-esc="sum(o.move_ids.mapped('product_uom_qty'))" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_untaxed" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_tax" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_total" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row mt-4">
+                            <div class="col-7">
+                                <div class="mt-4">Nombre de produit : <span t-esc="len(o.move_ids)" /></div>
+                                <div class="mt-4"> Arrêter le présent bon de livraison objet a la
+                                    somme de : <br />
+                                    <strong class="text-uppercase">
+                                        <span
+                                            t-esc="o.company_id.currency_id.amount_to_text(o.amount_net_payer)" />
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <table class="somdmi-table" style="margin-top: 0;">
+                                    <tr>
+                                        <td style="width: 60%;">Total HT</td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_untaxed" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total TVA</td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_tax" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Timbre</td>
+                                        <td class="text-right">
+                                            <span t-field="o.timbre" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total TTC</td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_total" />
+                                        </td>
+                                    </tr>
+                                    <tr style="font-weight: bold; font-size: 14px;">
+                                        <td style="background-color: #e0f2f1;">NET A PAYER</td>
+                                        <td class="text-right" style="background-color: #e0f2f1;">
+                                            <span t-field="o.amount_net_payer" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

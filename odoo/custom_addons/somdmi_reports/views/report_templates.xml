@@ -159,9 +159,9 @@
 
     <template id="report_saleorder_document_somdmi" inherit_id="sale.report_saleorder_document">
         <xpath expr="//div[@name='informations_date']" position="replace" />
-        <xpath expr="//div[@id='informations']/div[last()]" position="replace">
+        <!-- <xpath expr="//div[@id='informations']/div[last()]" position="replace"> -->
             <!-- This XPath targets and removes the salesperson information div -->
-        </xpath>
+        <!-- </xpath> -->
     </template>
 
     <template id="report_invoice_document_somdmi" inherit_id="account.report_invoice_document">

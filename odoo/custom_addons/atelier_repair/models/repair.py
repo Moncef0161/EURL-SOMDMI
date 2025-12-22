@@ -245,6 +245,50 @@ class RepairOrder(models.Model):
     ef_essais_autres = fields.Text(string='Autres essais')
     ef_observations = fields.Text(string='Observations')
 
+    # New fields for Reception and Delivery
+    reception_no = fields.Char(string='N° Bon de Réception', copy=False, readonly=True)
+    livraison_no = fields.Char(string='N° Bon de Livraison', copy=False, readonly=True)
+    devis_approx = fields.Float(string='Devis approx.')
+    mode_paiement = fields.Selection([
+        ('espece', 'Espèce'),
+        ('cheque', 'Chèque'),
+        ('virement', 'Virement'),
+        ('autre', 'Autre')
+    ], string='Mode de paiement', default='espece')
+    timbre = fields.Float(string='Timbre')
+    etabli_par = fields.Many2one('res.users', string='Etabli par', default=lambda self: self.env.user)
+    
+    amount_untaxed = fields.Float(string='Total HT', compute='_compute_amounts', store=True)
+    amount_tax = fields.Float(string='Total TVA', compute='_compute_amounts', store=True)
+    amount_total = fields.Float(string='Total TTC', compute='_compute_amounts', store=True)
+    amount_net_payer = fields.Float(string='NET A PAYER', compute='_compute_amounts', store=True)
+
+    @api.depends('move_ids.price_unit', 'move_ids.tax_id', 'move_ids.product_uom_qty', 'timbre')
+    def _compute_amounts(self):
+        for order in self:
+            untaxed = 0.0
+            tax = 0.0
+            for move in order.move_ids:
+                price = move.price_unit * move.product_uom_qty
+                untaxed += price
+                if move.tax_id:
+                    taxes = move.tax_id.compute_all(move.price_unit, order.company_id.currency_id, move.product_uom_qty, product=move.product_id, partner=order.partner_id)
+                    tax += sum(t.get('amount', 0.0) for t in taxes.get('taxes', []))
+            order.amount_untaxed = untaxed
+            order.amount_tax = tax
+            order.amount_total = untaxed + tax
+            order.amount_net_payer = untaxed + tax + order.timbre
+
+    def action_generate_reception_no(self):
+        for order in self:
+            if not order.reception_no:
+                order.reception_no = self.env['ir.sequence'].next_by_code('repair.reception.seq')
+
+    def action_generate_livraison_no(self):
+        for order in self:
+            if not order.livraison_no:
+                order.livraison_no = self.env['ir.sequence'].next_by_code('repair.livraison.seq')
+
     @api.onchange('checklist_ids')
     def _onchange_checklist_ids(self):
         if not self.checklist_ids:
@@ -360,3 +404,8 @@ class RepairChecklistLine(models.Model):
         if self.is_corrige:
             self.is_conforme = False
             self.is_nc = False
+
+class StockMove(models.Model):
+    _inherit = 'stock.move'
+
+    tax_id = fields.Many2many('account.tax', string='Taxes')
