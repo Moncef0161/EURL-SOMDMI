@@ -9,7 +9,7 @@
                 <button name="%(atelier_repair.action_report_repair_checklist)d"
                     string="Imprimer Fiche de Contrôle"
                     type="action"
-                    invisible="not checklist_ids and machine_type != 'bout_a_bout'" />
+                    invisible="machine_type not in ['bout_a_bout', 'electrofusion']" />
             </xpath>
             <xpath expr="//field[@name='product_id']" position="after">
                 <field name="machine_type" />
@@ -24,25 +24,93 @@
                     </group>
                 </page>
                 <page string="Fiche de Contrôle" name="checklist">
-                    <!-- Electrofusion Layout -->
+                    <!-- Electrofusion Layout (Hardcoded) -->
                     <div invisible="machine_type != 'electrofusion'">
-                        <group>
-                            <group>
-                                <field name="check_all_conforme" string="Tout Conforme" />
-                                <field name="check_all_nc" string="Tout N.C" />
-                                <field name="check_all_corrige" string="Tout Corrigé" />
-                            </group>
+                        <group col="4">
+                            <field name="product_id" string="Type" readonly="1" />
+                            <field name="ef_serie_no" />
+                            <field name="partner_id" string="Client" readonly="1" />
+                            <field name="ef_op_no" />
                         </group>
-                        <field name="checklist_ids" nolabel="1">
-                            <list editable="bottom">
-                                <field name="name" string="Section" />
-                                <field name="section" string="Opération" />
-                                <field name="is_conforme" />
-                                <field name="is_nc" />
-                                <field name="is_corrige" />
-                                <field name="observation" />
-                            </list>
-                        </field>
+                        <group col="4">
+                            <field name="ef_mesure_appareil" />
+                            <field name="ef_mesure_serie" />
+                            <field name="ef_banc_serie" />
+                        </group>
+
+                        <separator string="ETAPES CHRONOLOGIQUES" />
+                        <group string="Nettoyage">
+                            <field name="ef_row1" widget="radio" options="{'horizontal': true}" />
+                        </group>
+                        <group string="Contrôles visuels aspect extérieur" col="2">
+                            <field name="ef_row2" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row3" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row4" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row5" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row6" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row7" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row8" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row9" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row10" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row11" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row12" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row13" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row14" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row15" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row16" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row17" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row18" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row19" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row20" widget="radio" options="{'horizontal': true}" />
+                        </group>
+                        <group string="Contrôles sous tension" col="2">
+                            <field name="ef_row21" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row22" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row23" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row24" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row25" widget="radio" options="{'horizontal': true}" />
+                        </group>
+                        <group string="Contrôles visuels et opérations internes" col="2">
+                            <field name="ef_row26" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row27" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row28" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row29" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row30" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row31" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row32" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row33" widget="radio" options="{'horizontal': true}" />
+                        </group>
+                        <group string="Contrôle final" col="2">
+                            <field name="ef_row34" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row35" widget="radio" options="{'horizontal': true}" />
+                            <field name="ef_row36" widget="radio" options="{'horizontal': true}" />
+                        </group>
+
+                        <separator string="Remplacements de Matériel – Evolution du logiciel" />
+                        <group col="2">
+                            <field name="ef_carte_usb" />
+                            <field name="ef_version_logiciel" />
+                        </group>
+
+                        <separator string="RELEVE D’ESSAIS FINALS" />
+                        <group col="2">
+                            <field name="ef_test_1" string="14 V (13,79V ↔ 14,21V) 0,25 Ω" />
+                            <field name="ef_test_2" string="24 V (23,64V ↔ 24,36V) 0,25 Ω" />
+                            <field name="ef_test_3" string="30 V (29,55V ↔ 30,45V) 0,40 Ω" />
+                            <field name="ef_test_4" string="42 V (41,50V ↔ 42,50V) 0,65 Ω" />
+                            <field name="ef_test_5" string="35 V (34,50V ↔ 35,50V) 1,00 Ω" />
+                            <field name="ef_test_6" string="39 V (38,50V ↔ 39,50V) 2,00 Ω" />
+                            <field name="ef_test_7" string="24 V (23,64V ↔ 24,36V) 5,00 Ω" />
+                            <field name="ef_test_8" string="30 V (29,55V ↔ 30,45V) 5,00 Ω" />
+                            <field name="ef_test_9" string="39 V (38,50V ↔ 39,50V) 10,0 Ω" />
+                            <field name="ef_test_10" string="42 V (41,50V ↔ 42,50V) 15,0 Ω" />
+                            <field name="ef_test_manuel" string="Mode Manuel : Régulation à ± 1,5%" />
+                        </group>
+
+                        <group>
+                            <field name="ef_essais_autres" />
+                            <field name="ef_observations" />
+                        </group>
                     </div>
 
                     <!-- Bout à Bout Layout (Hardcoded) -->

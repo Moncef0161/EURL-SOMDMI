@@ -175,6 +175,76 @@ class RepairOrder(models.Model):
     
     bb_observations = fields.Text(string='Observations / Evolutions')
 
+    # --- Electrofusion Specific Fields (Hardcoded Layout) ---
+    ef_serie_no = fields.Char(string='N° de Série')
+    ef_op_no = fields.Char(string='N° OP')
+    ef_mesure_appareil = fields.Selection([
+        ('aoip', 'AOIP'),
+        ('fluke', 'FLUKE 123'),
+        ('autre', 'Autre')
+    ], string='Type appareil de mesures')
+    ef_mesure_serie = fields.Char(string='N° de série (Appareil)')
+    ef_banc_serie = fields.Char(string='N° de série banc de test 10 gammes')
+    
+    # ETAPES CHRONOLOGIQUES (36 rows)
+    # Using a simple naming convention for the 36 rows to keep it manageable
+    ef_row1 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='1. Nettoyage')
+    ef_row2 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='2. Boitier')
+    ef_row3 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='3. Châssis')
+    ef_row4 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='4. Fixation boitier/châssis')
+    ef_row5 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='5. Lexan')
+    ef_row6 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='6. Afficheur LCD')
+    ef_row7 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='7. Faisceau primaire')
+    ef_row8 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='8. Prise secteur conforme au poste')
+    ef_row9 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='9. Adapt. prise CE/Domestique conforme')
+    ef_row10 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='10. Faisceau secondaire + Connectique')
+    ef_row11 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='11. Presse-étoupes')
+    ef_row12 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='12. Connecteurs secondaire')
+    ef_row13 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='13. Crayon lecteur')
+    ef_row14 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='14. Cordon crayon lect + Connectique')
+    ef_row15 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='15. Interrupteur M/A')
+    ef_row16 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='16. Sonde de température')
+    ef_row17 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='17. Ports externes')
+    ef_row18 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='18. Etiquette signalétique')
+    ef_row19 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='19. Présence scellé inviolable')
+    ef_row20 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='20. Sacoche/Coffre aluminium')
+    ef_row21 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='21. Edition historique')
+    ef_row22 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='22. Effacement de l\'historique')
+    ef_row23 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='23. Fonctionnement du buzzer')
+    ef_row24 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='24. Mode test conforme')
+    ef_row25 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='25. Essais de fonctionnement')
+    ef_row26 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='26. Câblage')
+    ef_row27 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='27. Fixation éléments')
+    ef_row28 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='28. Platines électroniques')
+    ef_row29 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='29. MàJ électronique')
+    ef_row30 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='30. MàJ logiciel')
+    ef_row31 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='31. Essais de fonctionnement')
+    ef_row32 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='32. Fermeture poste')
+    ef_row33 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='33. Pose du scellé inviolable')
+    ef_row34 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='34. Paramétrage')
+    ef_row35 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='35. Relevé d\'essais finals')
+    ef_row36 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='36. Pose macaron de prochain contrôle')
+    
+    # Remplacements de Matériel
+    ef_carte_usb = fields.Char(string='Carte USB Type – N°')
+    ef_version_logiciel = fields.Char(string='Version logiciel')
+    
+    # RELEVE D’ESSAIS FINALS
+    ef_test_1 = fields.Char(string='14 V / 0,25 Ω')
+    ef_test_2 = fields.Char(string='24 V / 0,25 Ω')
+    ef_test_3 = fields.Char(string='30 V / 0,40 Ω')
+    ef_test_4 = fields.Char(string='42 V / 0,65 Ω')
+    ef_test_5 = fields.Char(string='35 V / 1,00 Ω')
+    ef_test_6 = fields.Char(string='39 V / 2,00 Ω')
+    ef_test_7 = fields.Char(string='24 V / 5,00 Ω')
+    ef_test_8 = fields.Char(string='30 V / 5,00 Ω')
+    ef_test_9 = fields.Char(string='39 V / 10,0 Ω')
+    ef_test_10 = fields.Char(string='42 V / 15,0 Ω')
+    ef_test_manuel = fields.Char(string='Mode Manuel Result')
+    
+    ef_essais_autres = fields.Text(string='Autres essais')
+    ef_observations = fields.Text(string='Observations')
+
     @api.onchange('checklist_ids')
     def _onchange_checklist_ids(self):
         if not self.checklist_ids:

@@ -26,68 +26,191 @@
                             .text-center { text-align: center; }
                         </style>
 
-                        <!-- Electrofusion Layout -->
+                        <!-- Electrofusion Layout (Hardcoded) -->
                         <t t-if="o.machine_type == 'electrofusion'">
-                            <div class="oe_structure" />
-                            <div class="text-center">
-                                <h2>FICHE DE CONTROLE ELECTROFUSION</h2>
-                            </div>
+                            <table class="bb-table">
+                                <tr>
+                                    <td rowspan="2" style="width: 30%; text-align: center; vertical-align: middle;">
+                                        <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 80px;" />
+                                    </td>
+                                    <td class="bb-header-bg" style="width: 40%; font-size: 16px;">
+                                        FICHE DE CONTROLE<br/>SAV ELECTROFUSION
+                                    </td>
+                                    <td style="width: 30%;">
+                                        Le : <span t-field="o.create_date" t-options='{"widget": "date"}'/><br/>
+                                        Par : <span t-field="o.user_id"/>
+                                    </td>
+                                </tr>
+                            </table>
 
-                            <div class="row mt32 mb32">
-                                <div class="col-3">
-                                    <strong>Ordre:</strong>
-                                    <p t-field="o.name" />
-                                </div>
-                                <div class="col-3">
-                                    <strong>Client:</strong>
-                                    <p t-field="o.partner_id" />
-                                </div>
-                                <div class="col-3">
-                                    <strong>Produit:</strong>
-                                    <p t-field="o.product_id" />
-                                </div>
-                                <div class="col-3">
-                                    <strong>Date:</strong>
-                                    <p t-field="o.create_date" t-options='{"widget": "date"}' />
-                                </div>
-                            </div>
+                            <table class="bb-table mt8">
+                                <tr>
+                                    <td style="width: 30%;">Type : <span t-field="o.product_id"/></td>
+                                    <td style="width: 40%;">N° de Série : <span t-field="o.ef_serie_no"/></td>
+                                    <td style="width: 30%;">N° OP : <span t-field="o.ef_op_no"/></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Client : <span t-field="o.partner_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        Type appareil de mesures : 
+                                        <span t-if="o.ef_mesure_appareil == 'aoip'">AOIP</span>
+                                        <span t-if="o.ef_mesure_appareil == 'fluke'">FLUKE 123</span>
+                                        <span t-if="o.ef_mesure_appareil == 'autre'">Autre</span>
+                                    </td>
+                                    <td>N° de série : <span t-field="o.ef_mesure_serie"/></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">N° de série banc de test 10 gammes : <span t-field="o.ef_banc_serie"/></td>
+                                </tr>
+                            </table>
 
-                            <table class="table table-sm o_main_table mt16">
+                            <table class="bb-table mt8">
                                 <thead>
+                                    <tr class="bb-header-bg"><th colspan="6">ETAPES CHRONOLOGIQUES</th></tr>
                                     <tr>
-                                        <th>Section</th>
-                                        <th>Opération</th>
-                                        <th class="text-center">Conforme</th>
-                                        <th class="text-center">N.C</th>
-                                        <th class="text-center">Corrigé</th>
-                                        <th>Observation</th>
+                                        <th style="width: 5%;">Ordre</th>
+                                        <th style="width: 25%;">OPERATION</th>
+                                        <th style="width: 40%;">LOCALISATION</th>
+                                        <th class="text-center" style="width: 10%;">CONFORME</th>
+                                        <th class="text-center" style="width: 10%;">N.C.</th>
+                                        <th class="text-center" style="width: 10%;">CORRIGE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-foreach="o.checklist_ids" t-as="line">
+                                    <!-- Row 1 -->
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Nettoyage</td>
+                                        <td>Boitier/Châssis/Faisceaux</td>
+                                        <td class="text-center"><span t-if="o.ef_row1 == 'conforme'">X</span></td>
+                                        <td class="text-center"><span t-if="o.ef_row1 == 'nc'">X</span></td>
+                                        <td class="text-center"><span t-if="o.ef_row1 == 'corrige'">X</span></td>
+                                    </tr>
+                                    <!-- Rows 2-20 -->
+                                    <t t-set="rows_visuel" t-value="[
+                                        (2, 'Boitier'), (3, 'Châssis'), (4, 'Fixation boitier/châssis'), (5, 'Lexan'),
+                                        (6, 'Afficheur LCD'), (7, 'Faisceau primaire'), (8, 'Prise secteur conforme au poste'),
+                                        (9, 'Adapt. prise CE/Domestique conforme'), (10, 'Faisceau secondaire + Connectique'),
+                                        (11, 'Presse-étoupes'), (12, 'Connecteurs secondaire'), (13, 'Crayon lecteur'),
+                                        (14, 'Cordon crayon lect + Connectique'), (15, 'Interrupteur M/A'), (16, 'Sonde de température'),
+                                        (17, 'Ports externes'), (18, 'Etiquette signalétique'), (19, 'Présence scellé inviolable'),
+                                        (20, 'Sacoche/Coffre aluminium')
+                                    ]"/>
+                                    <t t-foreach="rows_visuel" t-as="row">
                                         <tr>
-                                            <td>
-                                                <span t-field="line.name" />
-                                            </td>
-                                            <td>
-                                                <span t-field="line.section" />
-                                            </td>
-                                            <td class="text-center">
-                                                <span t-if="line.is_conforme">X</span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span t-if="line.is_nc">X</span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span t-if="line.is_corrige">X</span>
-                                            </td>
-                                            <td>
-                                                <span t-field="line.observation" />
-                                            </td>
+                                            <td class="text-center"><t t-esc="row[0]"/></td>
+                                            <td t-if="row[0] == 2" rowspan="19" style="vertical-align: middle;">Contrôles visuels aspect extérieur</td>
+                                            <td><t t-esc="row[1]"/></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'conforme'">X</span></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'nc'">X</span></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'corrige'">X</span></td>
+                                        </tr>
+                                    </t>
+                                    <!-- Rows 21-25 -->
+                                    <t t-set="rows_tension" t-value="[
+                                        (21, 'Edition historique'), (22, 'Effacement de l\'historique'), (23, 'Fonctionnement du buzzer'),
+                                        (24, 'Mode test conforme'), (25, 'Essais de fonctionnement')
+                                    ]"/>
+                                    <t t-foreach="rows_tension" t-as="row">
+                                        <tr>
+                                            <td class="text-center"><t t-esc="row[0]"/></td>
+                                            <td t-if="row[0] == 21" rowspan="5" style="vertical-align: middle;">Contrôles sous tension</td>
+                                            <td><t t-esc="row[1]"/></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'conforme'">X</span></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'nc'">X</span></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'corrige'">X</span></td>
+                                        </tr>
+                                    </t>
+                                    <!-- Rows 26-33 -->
+                                    <t t-set="rows_interne" t-value="[
+                                        (26, 'Câblage'), (27, 'Fixation éléments'), (28, 'Platines électroniques'),
+                                        (29, 'MàJ électronique'), (30, 'MàJ logiciel'), (31, 'Essais de fonctionnement'),
+                                        (32, 'Fermeture poste'), (33, 'Pose du scellé inviolable')
+                                    ]"/>
+                                    <t t-foreach="rows_interne" t-as="row">
+                                        <tr>
+                                            <td class="text-center"><t t-esc="row[0]"/></td>
+                                            <td t-if="row[0] == 26" rowspan="8" style="vertical-align: middle;">Contrôles visuels et opérations internes</td>
+                                            <td><t t-esc="row[1]"/></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'conforme'">X</span></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'nc'">X</span></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'corrige'">X</span></td>
+                                        </tr>
+                                    </t>
+                                    <!-- Rows 34-36 -->
+                                    <t t-set="rows_final" t-value="[
+                                        (34, 'Paramétrage'), (35, 'Relevé d\'essais finals'), (36, 'Pose macaron de prochain contrôle')
+                                    ]"/>
+                                    <t t-foreach="rows_final" t-as="row">
+                                        <tr>
+                                            <td class="text-center"><t t-esc="row[0]"/></td>
+                                            <td t-if="row[0] == 34" rowspan="3" style="vertical-align: middle;">Contrôle final</td>
+                                            <td><t t-esc="row[1]"/></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'conforme'">X</span></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'nc'">X</span></td>
+                                            <td class="text-center"><span t-if="o['ef_row%s' % row[0]] == 'corrige'">X</span></td>
                                         </tr>
                                     </t>
                                 </tbody>
                             </table>
+
+                            <div style="page-break-before: always;"></div>
+
+                            <table class="bb-table">
+                                <tr class="bb-header-bg"><td colspan="3">Remplacements de Matériel – Evolution du logiciel</td></tr>
+                                <tr>
+                                    <td style="width: 40%;">Carte USB Type – N°</td>
+                                    <td style="width: 20%;"><span t-field="o.ef_carte_usb"/></td>
+                                    <td style="width: 40%;">Version logiciel : <span t-field="o.ef_version_logiciel"/></td>
+                                </tr>
+                            </table>
+
+                            <table class="bb-table mt8">
+                                <tr class="bb-header-bg"><td>RELEVE D’ESSAIS FINALS : Contrôle Ohmique et Régulation en Mode Code à Barres +/- 1,5%</td></tr>
+                            </table>
+
+                            <t t-set="tests" t-value="[
+                                ('14 V (13,79V ↔ 14,21V)', '0,25 Ω', 'ef_test_1'),
+                                ('24 V (23,64V ↔ 24,36V)', '0,25 Ω', 'ef_test_2'),
+                                ('30 V (29,55V ↔ 30,45V)', '0,40 Ω', 'ef_test_3'),
+                                ('42 V (41,50V ↔ 42,50V)', '0,65 Ω', 'ef_test_4'),
+                                ('35 V (34,50V ↔ 35,50V)', '1,00 Ω', 'ef_test_5'),
+                                ('39 V (38,50V ↔ 39,50V)', '2,00 Ω', 'ef_test_6'),
+                                ('24 V (23,64V ↔ 24,36V)', '5,00 Ω', 'ef_test_7'),
+                                ('30 V (29,55V ↔ 30,45V)', '5,00 Ω', 'ef_test_8'),
+                                ('39 V (38,50V ↔ 39,50V)', '10,0 Ω', 'ef_test_9'),
+                                ('42 V (41,50V ↔ 42,50V)', '15,0 Ω', 'ef_test_10')
+                            ]"/>
+
+                            <table class="bb-table">
+                                <t t-foreach="tests" t-as="test">
+                                    <tr>
+                                        <td style="width: 40%; font-size: 10px;">
+                                            <t t-esc="test[0]"/> <span style="margin-left: 20px;"><t t-esc="test[1]"/></span><br/>
+                                            <span style="font-family: monospace; font-size: 14px;">zDdDdDiDdliDdIdDld...</span>
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            <span t-esc="o[test[2]]"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+
+                            <table class="bb-table mt8">
+                                <tr class="bb-header-bg">
+                                    <td style="width: 40%;">Mode Manuel : Régulation à ± 1,5%</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 10px;">30V/0,4Ω/100s <span style="margin-left: 20px;">29,55V ↔ 30,45V</span></td>
+                                    <td><span t-field="o.ef_test_manuel"/></td>
+                                </tr>
+                            </table>
+
+                            <p class="mt16">Autres essais : <span t-field="o.ef_essais_autres"/></p>
+                            <p>Observations : <span t-field="o.ef_observations"/></p>
                         </t>
 
                         <!-- Bout à Bout Layout (Hardcoded) -->
