@@ -2,6 +2,16 @@
 <odoo>
     <menuitem id="repair.menu_repair_order" name="Atelier" />
 
+    <!-- Produits Dropdown -->
+    <menuitem id="menu_atelier_products_root" name="Produits" parent="repair.menu_repair_order"
+        sequence="10" />
+
+    <menuitem id="menu_atelier_brands" name="Marques" parent="menu_atelier_products_root"
+        action="action_product_brand" sequence="10" />
+
+    <menuitem id="menu_atelier_types" name="Types de Machine" parent="menu_atelier_products_root"
+        action="action_product_type" sequence="20" />
+
     <!-- Clients Dropdown -->
     <menuitem id="menu_atelier_clients_root" name="Clients" parent="repair.menu_repair_order"
         sequence="15" />
