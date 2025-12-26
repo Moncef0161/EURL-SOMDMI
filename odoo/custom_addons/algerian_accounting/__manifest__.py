@@ -2,7 +2,7 @@
     "name": "Algerian Accounting",
     "author": "Riad Bensemmane",
     "version": "18.0.0.1.0",
-    "depends": ["l10n_dz"],
+    "depends": ["l10n_dz", "l10n_dz_on_timbre_fiscal"],
     "data": [
         'views/algerian_accounting_views.xml',
         'views/res_config_settings_views.xml',
