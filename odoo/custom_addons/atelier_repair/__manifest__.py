@@ -8,10 +8,12 @@
 Ce module renomme le module de Réparation en Atelier et personnalise ses menus.
 """,
     'author': 'Moncef',
-    'depends': ['repair', 'algerian_accounting'],
+    'depends': ['repair', 'algerian_accounting', 'stock'],
     'data': [
-        'security/ir.model.access.csv',
+        'data/product_category_data.xml',
+        'data/stock_location_data.xml',
         'data/ir_sequence_data.xml',
+        'security/ir.model.access.csv',
         'views/product_views.xml',
         'report/repair_checklist_report.xml',
         'report/repair_documents_report.xml',
