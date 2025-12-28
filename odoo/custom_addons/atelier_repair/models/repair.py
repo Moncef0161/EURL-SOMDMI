@@ -440,13 +440,15 @@ class ProductBrand(models.Model):
     _description = 'Marque de Produit'
 
     name = fields.Char(string='Nom', required=True)
+    type_id = fields.Many2one('product.type', string="Type", required=True)
 
 class ProductType(models.Model):
     _name = 'product.type'
     _description = 'Type de Machine'
 
     name = fields.Char(string='Nom', required=True)
-    brand_id = fields.Many2one('product.brand', string='Marque', required=True)
+
+from odoo import models, fields, api
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -459,37 +461,13 @@ class ProductTemplate(models.Model):
         ('refurbished', 'Remis à neuf'),
     ], string='État')
 
-    def _formatted_name(self, base_name=None):
-        self.ensure_one()
-        name = base_name or self.name or ""
-        if self.brand_id and self.type_id:
-            name = f"{self.brand_id.name} {self.type_id.name} {name}"
-        return name
-
+    # Keep default create and write behavior
     @api.model
     def create(self, vals):
-        name = vals.get("name")
-        brand = vals.get("brand_id")
-        type_ = vals.get("type_id")
-
-        if brand and type_ and name:
-            brand_rec = self.env["product.brand"].browse(brand)
-            type_rec = self.env["product.type"].browse(type_)
-            vals["name"] = f"{brand_rec.name} {type_rec.name} {name}"
-
         return super(ProductTemplate, self).create(vals)
 
     def write(self, vals):
-        res = super(ProductTemplate, self).write(vals)
+        return super(ProductTemplate, self).write(vals)
 
-        fields_trigger = ("name" in vals or
-                          "brand_id" in vals or
-                          "type_id" in vals)
-
-        if fields_trigger:
-            for rec in self:
-                rec.name = rec._formatted_name()
-
-        return res
 
 
