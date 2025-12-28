@@ -12,23 +12,28 @@
                     invisible="machine_type not in ['bout_a_bout', 'electrofusion']" />
             </xpath>
 
-            <xpath expr="//field[@name='product_id']" position="before">
-                <field name="brand_id" string="Marque"
-                       domain="[]" readonly="0"/>
-                <field name="type_id" string="Type"
-                       domain="[('brand_id', '=', brand_id)]" readonly="0"/>
+            <xpath expr="//field[@name='product_id']" position="attributes">
+                <attribute name="domain">[('type', '!=', 'service')]</attribute>
             </xpath>
 
-            <xpath expr="//field[@name='product_id']" position="attributes">
-                <attribute name="domain">
-                    [('type_id', '=', type_id)]
-                </attribute>
-            </xpath>
 
             <xpath expr="//field[@name='move_ids']/list/field[@name='product_uom']" position="after">
                 <field name="price_unit" />
                 <field name="tax_id" widget="many2many_tags" />
             </xpath>
+
+            <xpath expr="//field[@name='product_location_src_id']" position="attributes">
+                <attribute name="context">{'default_product_location_src_id': %(atelier_repair.stock_location_atelier_customer)d}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='location_id']" position="attributes">
+                <attribute name="context">{'default_location_id': %(atelier_repair.stock_location_atelier_customer)d}</attribute>
+            </xpath>
+
+           <xpath expr="//page[@name='parts']/field[@name='move_ids']/list/field[@name='product_id']" position="attributes">
+                <attribute name="domain">[('categ_id.name', '=', 'Pièce de rechange')]</attribute>
+           </xpath>
+
             <xpath expr="//page[@name='parts']" position="before">
                 <page string="Pannes" name="breakdowns">
                     <group>
