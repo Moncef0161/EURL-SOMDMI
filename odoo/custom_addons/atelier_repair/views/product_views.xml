@@ -20,6 +20,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
+                <field name="type_id"/>
             </list>
         </field>
     </record>
@@ -30,7 +31,6 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
-                <field name="brand_id"/>
             </list>
         </field>
     </record>
@@ -44,6 +44,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="type_id"/>
                     </group>
                 </sheet>
             </form>
@@ -58,7 +59,6 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="brand_id"/>
                     </group>
                 </sheet>
             </form>
@@ -72,8 +72,8 @@
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//group[@name='group_general']" position="inside">
-                    <field name="brand_id" string="Marque"/>
-                    <field name="type_id" string="Type" domain="[('brand_id', '=', brand_id)]"/>
+                    <field name="type_id" string="Type"/>
+                    <field name="brand_id" string="Marque" domain="[('type_id', '=', type_id)]"/>
                     <field name="state" string="État"/>
             </xpath>
         </field>
