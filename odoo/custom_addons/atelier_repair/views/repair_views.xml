@@ -23,14 +23,6 @@
                         invisible="product_type_name not in ['Bout à Bout', 'Electrofusion']" />
             </xpath>
 
-            <xpath expr="//button[@name='action_repair_cancel']" position="before">
-                <button name="action_create_receipt"
-                        string="Générer Bon de Réception"
-                        type="object"
-                        class="oe_highlight"
-                        invisible="reception_no != False"/>
-            </xpath>
-
             <xpath expr="//field[@name='move_ids']/list/field[@name='product_uom']" position="after">
                 <field name="price_unit" />
                 <field name="tax_id" widget="many2many_tags" />
@@ -55,6 +47,7 @@
                             options="{'no_create_edit': False}" />
                         <field name="actual_breakdown_ids" widget="many2many_tags"
                             options="{'no_create_edit': False}" />
+                        <field name="x_observation"/>
                     </group>
                 </page>
                 <page string="Fiche de Contrôle" name="checklist">
