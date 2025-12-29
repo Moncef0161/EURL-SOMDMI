@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="action_picking_tree_reception_filtered" model="ir.actions.act_window">
-        <field name="name">Bons de Réception</field>
+        <field name="name">Bons de Réception Atelier</field>
         <field name="res_model">stock.picking</field>
         <field name="view_mode">list,kanban,form</field>
-        <field name="domain">[('picking_type_code', '=', 'incoming')]</field>
-        <field name="context">{'default_picking_type_code': 'incoming'}</field>
+        <field name="context">{
+            'picking_ateliers_flow': True,
+            'default_immediate_transfer': False
+        }</field>
     </record>
 
     <record id="action_picking_tree_delivery_filtered" model="ir.actions.act_window">
