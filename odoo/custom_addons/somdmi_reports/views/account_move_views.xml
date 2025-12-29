@@ -12,12 +12,14 @@
                     widget="radio"
                     options="{'horizontal': true}"
                     invisible="move_type not in ('out_invoice', 'out_refund')"
+                    readonly="state != 'draft'"
                     required="move_type in ('out_invoice', 'out_refund') and state == 'draft'" />
             </xpath>
 
             <!-- Make journal_id readonly when invoice_type is set -->
             <xpath expr="//field[@name='journal_id']" position="attributes">
                 <attribute name="readonly">invoice_type and state == 'draft'</attribute>
+                <attribute name="force_save">1</attribute>
             </xpath>
         </field>
     </record>

@@ -26,12 +26,9 @@ class AccountMove(models.Model):
             
             journal_xmlid = journal_map.get(self.invoice_type)
             if journal_xmlid:
-                try:
-                    journal = self.env.ref(journal_xmlid)
-                    if journal:
-                        self.journal_id = journal.id
-                except:
-                    pass
+                journal = self.env.ref(journal_xmlid, raise_if_not_found=False)
+                if journal:
+                    self.journal_id = journal.id
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -47,12 +44,9 @@ class AccountMove(models.Model):
                 
                 journal_xmlid = journal_map.get(vals['invoice_type'])
                 if journal_xmlid:
-                    try:
-                        journal = self.env.ref(journal_xmlid)
-                        if journal and not vals.get('journal_id'):
-                            vals['journal_id'] = journal.id
-                    except:
-                        pass
+                    journal = self.env.ref(journal_xmlid, raise_if_not_found=False)
+                    if journal and not vals.get('journal_id'):
+                        vals['journal_id'] = journal.id
         
         return super(AccountMove, self).create(vals_list)
 
