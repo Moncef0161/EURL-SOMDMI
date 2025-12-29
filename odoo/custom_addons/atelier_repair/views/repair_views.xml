@@ -37,7 +37,7 @@
             <xpath expr="//page[@name='parts']" position="before">
                 <page string="Pannes" name="breakdowns">
                     <group>
-                        <field name="declared_breakdown_ids" widget="many2many_tags"
+                        <field name="declared_breakdown_ids" widget="many2many_tags" required ="1"
                             options="{'no_create_edit': False}" />
                         <field name="actual_breakdown_ids" widget="many2many_tags"
                             options="{'no_create_edit': False}" />

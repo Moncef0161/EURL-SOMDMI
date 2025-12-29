@@ -103,8 +103,7 @@ class RepairOrder(models.Model):
         'repair_order_actual_breakdown_rel',
         'repair_id', 
         'breakdown_id',
-        string='Pannes réelles', 
-        required=True
+        string='Pannes réelles',
     )
     machine_type = fields.Selection([
         ('electrofusion', 'Electrofusion'),
