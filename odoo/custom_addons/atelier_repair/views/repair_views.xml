@@ -9,7 +9,7 @@
                 <button name="%(atelier_repair.action_report_repair_checklist)d"
                     string="Imprimer Fiche de Contrôle"
                     type="action"
-                    invisible="machine_type not in ['bout_a_bout', 'electrofusion']" />
+                    invisible="product_type_name not in ['bout_a_bout', 'electrofusion']" />
             </xpath>
 
             <xpath expr="//field[@name='product_id']" position="attributes">
@@ -45,7 +45,7 @@
                 </page>
                 <page string="Fiche de Contrôle" name="checklist">
                     <!-- Electrofusion Layout (Hardcoded) -->
-                    <div invisible="machine_type != 'electrofusion'">
+                    <div invisible="product_type_name != 'Electrofusion'">
                         <group col="4">
                             <field name="product_id" string="Type" readonly="1" />
                             <field name="ef_serie_no" />
@@ -134,7 +134,7 @@
                     </div>
 
                     <!-- Bout à Bout Layout (Hardcoded) -->
-                    <div invisible="machine_type != 'bout_a_bout'">
+                    <div invisible="product_type_name != 'Bout à Bout'">
                         <group col="4">
                             <field name="bb_serie_no" />
                             <field name="bb_decharge_no" />

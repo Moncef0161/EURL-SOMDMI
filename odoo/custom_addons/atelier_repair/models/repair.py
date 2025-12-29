@@ -76,18 +76,10 @@ class RepairBreakdown(models.Model):
 class RepairOrder(models.Model):
     _inherit = 'repair.order'
 
-    brand_id = fields.Many2one(
-        related='product_id.brand_id',
-        readonly=False,
-        store=False,
-        string="Marque"
-    )
-
-    type_id = fields.Many2one(
-        related='product_id.type_id',
-        readonly=False,
-        store=False,
-        string="Type"
+    product_type_name = fields.Char(
+        related='product_id.type_id.name',
+        string="Product Type Name",
+        store=True
     )
 
     declared_breakdown_ids = fields.Many2many(
