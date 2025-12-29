@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_inherit_repair_atelier" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.repair.atelier</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="action_generate_repairs"
+                        string="Créer Ordres de Réparation"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="picking_type_code != 'incoming' or state != 'done'"/>
+            </xpath>
+
+            <xpath expr="//field[@name='move_ids_without_package']//list//field[@name='product_id']" position="after">
+                <field name="x_lot_id"
+                       domain="[('product_id', '=', product_id)]"
+                       context="{'default_product_id': product_id}"
+                       widget="many2one"
+                       options="{'no_create_edit': False}"/>
+
+                <field name="x_declared_breakdown_ids" widget="many2many_tags" options="{'no_create': False}"/>
+                <field name="x_observation"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
