@@ -54,7 +54,7 @@
         <!-- Service Journal -->
         <record id="journal_service" model="account.journal">
             <field name="name">Factures Service</field>
-            <field name="code">SERV</field>
+            <field name="code">S</field>
             <field name="type">sale</field>
             <field name="sequence_id" ref="sequence_journal_service" />
             <field name="show_on_dashboard" eval="True" />
@@ -63,7 +63,7 @@
         <!-- Vente Journal -->
         <record id="journal_vente" model="account.journal">
             <field name="name">Factures Vente</field>
-            <field name="code">VENT</field>
+            <field name="code">V</field>
             <field name="type">sale</field>
             <field name="sequence_id" ref="sequence_journal_vente" />
             <field name="show_on_dashboard" eval="True" />
@@ -72,7 +72,7 @@
         <!-- Exportation Type A Journal -->
         <record id="journal_export_a" model="account.journal">
             <field name="name">Factures Exportation Type A</field>
-            <field name="code">EXPA</field>
+            <field name="code">ESA</field>
             <field name="type">sale</field>
             <field name="sequence_id" ref="sequence_journal_export_a" />
             <field name="show_on_dashboard" eval="True" />
@@ -81,7 +81,7 @@
         <!-- Exportation Type B Journal -->
         <record id="journal_export_b" model="account.journal">
             <field name="name">Factures Exportation Type B</field>
-            <field name="code">EXPB</field>
+            <field name="code">ESB</field>
             <field name="type">sale</field>
             <field name="sequence_id" ref="sequence_journal_export_b" />
             <field name="show_on_dashboard" eval="True" />
