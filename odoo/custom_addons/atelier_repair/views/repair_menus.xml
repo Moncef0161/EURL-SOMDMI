@@ -1,34 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="action_picking_tree_reception_filtered" model="ir.actions.act_window">
+        <field name="name">Bons de Réception</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('picking_type_code', '=', 'incoming')]</field>
+        <field name="context">{'default_picking_type_code': 'incoming'}</field>
+    </record>
+
+    <record id="action_picking_tree_delivery_filtered" model="ir.actions.act_window">
+        <field name="name">Bons de Livraison</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('picking_type_code', '=', 'outgoing')]</field>
+        <field name="context">{'default_picking_type_code': 'outgoing'}</field>
+    </record>
+
     <menuitem id="repair.menu_repair_order" name="Atelier" />
 
-    <!-- Produits Dropdown -->
-    <menuitem id="menu_atelier_products_root" name="Produits" parent="repair.menu_repair_order"
-        sequence="10" />
+    <menuitem id="menu_atelier_products_root" name="Produits" parent="repair.menu_repair_order" sequence="10" />
+
+    <menuitem id="menu_atelier_products_shortcut" name="Tous les Produits" parent="menu_atelier_products_root"
+              action="product.product_template_action" sequence="5"/>
 
     <menuitem id="menu_atelier_types" name="Types de Machines" parent="menu_atelier_products_root"
-        action="action_product_type" sequence="10" />
+              action="action_product_type" sequence="10" />
 
     <menuitem id="menu_atelier_brands" name="Marques" parent="menu_atelier_products_root"
-        action="action_product_brand" sequence="20" />
+              action="action_product_brand" sequence="20" />
 
-    <!-- Shortcut to all Products -->
-    <menuitem id="menu_atelier_products_shortcut"
-              name="Tous les Produits"
-              parent="menu_atelier_products_root"
-              action="product.product_template_action"
-              sequence="5"/>
-
-    <!-- Clients Dropdown -->
-    <menuitem id="menu_atelier_clients_root" name="Clients" parent="repair.menu_repair_order"
-        sequence="15" />
+    <menuitem id="menu_atelier_clients_root" name="Clients" parent="repair.menu_repair_order" sequence="15" />
 
     <menuitem id="menu_atelier_clients" name="Clients" parent="menu_atelier_clients_root"
-        action="base.action_partner_form" sequence="10" />
+              action="contacts.action_contacts" sequence="10" />
 
-    <menuitem id="menu_atelier_reception" name="Bons de Réception"
-        parent="menu_atelier_clients_root" action="repair.action_repair_order_tree" sequence="20" />
+    <menuitem id="menu_atelier_reception" name="Réparations - Réception"
+              parent="menu_atelier_clients_root" action="repair.action_repair_order_tree" sequence="20" />
 
-    <menuitem id="menu_atelier_livraison" name="Bons de Livraison"
-        parent="menu_atelier_clients_root" action="repair.action_repair_order_tree" sequence="30" />
+    <menuitem id="menu_atelier_livraison" name="Réparations - Livraison"
+              parent="menu_atelier_clients_root" action="repair.action_repair_order_tree" sequence="30" />
+
+    <menuitem id="menu_atelier_attachments_root" name="Pièces Jointes" parent="repair.menu_repair_order" sequence="20" />
+
+    <menuitem id="menu_atelier_reception_picking"
+              name="Bons de Réception"
+              parent="menu_atelier_attachments_root"
+              action="action_picking_tree_reception_filtered"
+              sequence="10" />
+
+    <menuitem id="menu_atelier_livraison_picking"
+              name="Bons de Livraison"
+              parent="menu_atelier_attachments_root"
+              action="action_picking_tree_delivery_filtered"
+              sequence="20" />
 </odoo>
