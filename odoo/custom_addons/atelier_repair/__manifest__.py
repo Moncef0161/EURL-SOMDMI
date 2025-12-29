@@ -13,6 +13,7 @@ Ce module renomme le module de Réparation en Atelier et personnalise ses menus.
         'data/product_category_data.xml',
         'data/stock_location_data.xml',
         'data/ir_sequence_data.xml',
+        'data/product_type_data.xml',
         'security/ir.model.access.csv',
         'views/product_views.xml',
         'report/repair_checklist_report.xml',

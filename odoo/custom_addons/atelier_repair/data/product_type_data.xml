@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_type_electrofusion" model="product.type">
+        <field name="name">Electrofusion</field>
+    </record>
+
+    <record id="product_type_bout_a_bout" model="product.type">
+        <field name="name">Bout à Bout</field>
+    </record>
+</odoo>
