@@ -76,6 +76,10 @@ class RepairBreakdown(models.Model):
 class RepairOrder(models.Model):
     _inherit = 'repair.order'
 
+    picking_id = fields.Many2one('stock.picking', string="Réception d'origine", readonly=True)
+
+    x_observation = fields.Char(string='Observation Receipt')
+
     product_type_name = fields.Char(
         related='product_id.type_id.name',
         string="Product Type Name",
@@ -511,6 +515,4 @@ class ProductTemplate(models.Model):
 
     def write(self, vals):
         return super(ProductTemplate, self).write(vals)
-
-
 
