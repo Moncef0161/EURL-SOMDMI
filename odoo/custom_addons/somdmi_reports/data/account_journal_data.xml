@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+
+        <!-- Sequences for each journal -->
+
+        <!-- Service Journal Sequence -->
+        <record id="sequence_journal_service" model="ir.sequence">
+            <field name="name">Service Invoice Sequence</field>
+            <field name="code">account.journal.service</field>
+            <field name="implementation">standard</field>
+            <field name="prefix">INV/%(range_year)s/S/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True" />
+        </record>
+
+        <!-- Vente Journal Sequence -->
+        <record id="sequence_journal_vente" model="ir.sequence">
+            <field name="name">Vente Invoice Sequence</field>
+            <field name="code">account.journal.vente</field>
+            <field name="implementation">standard</field>
+            <field name="prefix">INV/%(range_year)s/V/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True" />
+        </record>
+
+        <!-- Exportation Type A Journal Sequence -->
+        <record id="sequence_journal_export_a" model="ir.sequence">
+            <field name="name">Export A Invoice Sequence</field>
+            <field name="code">account.journal.export.a</field>
+            <field name="implementation">standard</field>
+            <field name="prefix">INV/%(range_year)s/EA/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True" />
+        </record>
+
+        <!-- Exportation Type B Journal Sequence -->
+        <record id="sequence_journal_export_b" model="ir.sequence">
+            <field name="name">Export B Invoice Sequence</field>
+            <field name="code">account.journal.export.b</field>
+            <field name="implementation">standard</field>
+            <field name="prefix">INV/%(range_year)s/EB/</field>
+            <field name="padding">5</field>
+            <field name="use_date_range" eval="True" />
+        </record>
+
+    </data>
+
+    <data>
+
+        <!-- Journals for each type with sequence_id -->
+
+        <!-- Service Journal -->
+        <record id="journal_service" model="account.journal">
+            <field name="name">Factures Service</field>
+            <field name="code">SERV</field>
+            <field name="type">sale</field>
+            <field name="sequence_id" ref="sequence_journal_service" />
+            <field name="show_on_dashboard" eval="True" />
+        </record>
+
+        <!-- Vente Journal -->
+        <record id="journal_vente" model="account.journal">
+            <field name="name">Factures Vente</field>
+            <field name="code">VENT</field>
+            <field name="type">sale</field>
+            <field name="sequence_id" ref="sequence_journal_vente" />
+            <field name="show_on_dashboard" eval="True" />
+        </record>
+
+        <!-- Exportation Type A Journal -->
+        <record id="journal_export_a" model="account.journal">
+            <field name="name">Factures Exportation Type A</field>
+            <field name="code">EXPA</field>
+            <field name="type">sale</field>
+            <field name="sequence_id" ref="sequence_journal_export_a" />
+            <field name="show_on_dashboard" eval="True" />
+        </record>
+
+        <!-- Exportation Type B Journal -->
+        <record id="journal_export_b" model="account.journal">
+            <field name="name">Factures Exportation Type B</field>
+            <field name="code">EXPB</field>
+            <field name="type">sale</field>
+            <field name="sequence_id" ref="sequence_journal_export_b" />
+            <field name="show_on_dashboard" eval="True" />
+        </record>
+
+    </data>
+</odoo>
