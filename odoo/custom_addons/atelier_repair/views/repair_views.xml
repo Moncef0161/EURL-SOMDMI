@@ -16,6 +16,20 @@
                 <attribute name="domain">[('type', '!=', 'service')]</attribute>
             </xpath>
 
+            <xpath expr="//header" position="inside">
+                <button name="%(atelier_repair.action_report_repair_checklist)d"
+                        string="Imprimer Fiche de Contrôle"
+                        type="action"
+                        invisible="product_type_name not in ['Bout à Bout', 'Electrofusion']" />
+            </xpath>
+
+            <xpath expr="//button[@name='action_repair_cancel']" position="before">
+                <button name="action_create_receipt"
+                        string="Générer Bon de Réception"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="reception_no != False"/>
+            </xpath>
 
             <xpath expr="//field[@name='move_ids']/list/field[@name='product_uom']" position="after">
                 <field name="price_unit" />

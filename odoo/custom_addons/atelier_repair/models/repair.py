@@ -83,17 +83,17 @@ class RepairOrder(models.Model):
     )
 
     declared_breakdown_ids = fields.Many2many(
-        'repair.breakdown', 
+        'repair.breakdown',
         'repair_order_declared_breakdown_rel',
-        'repair_id', 
+        'repair_id',
         'breakdown_id',
-        string='Pannes déclarées', 
+        string='Pannes déclarées',
         required=True
     )
     actual_breakdown_ids = fields.Many2many(
-        'repair.breakdown', 
+        'repair.breakdown',
         'repair_order_actual_breakdown_rel',
-        'repair_id', 
+        'repair_id',
         'breakdown_id',
         string='Pannes réelles',
     )
@@ -101,70 +101,55 @@ class RepairOrder(models.Model):
         ('electrofusion', 'Electrofusion'),
         ('bout_a_bout', 'Bout à Bout')
     ], string='Type de Machine')
+
     checklist_ids = fields.One2many('repair.checklist.line', 'repair_id', string='Fiche de Contrôle')
-    
     check_all_conforme = fields.Boolean(string='Tout Conforme')
     check_all_nc = fields.Boolean(string='Tout N.C')
     check_all_corrige = fields.Boolean(string='Tout Corrigé')
 
-    # --- Bout à Bout Specific Fields (Hardcoded Layout) ---
+    # --- Bout à Bout Fields ---
     bb_serie_no = fields.Char(string='Série N°')
     bb_decharge_no = fields.Char(string='N° de décharge')
-    
-    # Diagnostique de la machine
     bb_diag_alimentation = fields.Boolean(string='Alimentation')
     bb_diag_pression = fields.Boolean(string='Pression')
     bb_diag_deplacement = fields.Boolean(string='Déplacement')
     bb_diag_temperature = fields.Boolean(string='Température')
     bb_diag_clavier = fields.Boolean(string='Clavier')
     bb_diag_autre = fields.Boolean(string='Autre')
-    
-    # ETAPES CHRONOLOGIQUES
-    bb_chrono_deplacement = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')], string='Test de déplacement')
-    bb_chrono_pression = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')], string='Test de pression')
-    bb_chrono_element_chauffant = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')], string='Vérification d\'élément chauffant')
-    bb_chrono_rabot = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')], string='Vérification rabot')
-    bb_chrono_bati = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')], string='Vérification bâti')
-    
-    # Footer 1
+    bb_chrono_deplacement = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')],
+                                             string='Test de déplacement')
+    bb_chrono_pression = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')],
+                                          string='Test de pression')
+    bb_chrono_element_chauffant = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')],
+                                                   string='Vérification d\'élément chauffant')
+    bb_chrono_rabot = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')],
+                                       string='Vérification rabot')
+    bb_chrono_bati = fields.Selection([('conforme', 'CONFIRME'), ('nc', 'N.C'), ('corrige', 'CORRIGE')],
+                                      string='Vérification bâti')
     bb_cycle_soudage = fields.Char(string='Cycle de soudage')
     bb_diam = fields.Char(string='DIAM')
     bb_conforme = fields.Boolean(string='Conforme')
     bb_impression_donnees = fields.Boolean(string='Impressionnes données')
     bb_date_reparation = fields.Date(string='Date de réparation', default=fields.Date.context_today)
     bb_remarque = fields.Text(string='Remarque')
-    
-    # Contrôles du Bâti
     bb_bati_connexions = fields.Boolean(string='Connexions hydrauliques')
     bb_bati_ecrous = fields.Boolean(string='Etat et fonctionnement libre des écrous de mors')
     bb_bati_surfaces = fields.Boolean(string='Etat des surfaces bâti – mors – vérins')
     bb_bati_plaque = fields.Boolean(string='Plaque signalétique correctement renseignée')
-    
-    # Contrôles du Rabot
     bb_rabot_etat = fields.Boolean(string='Etat général')
     bb_rabot_lames = fields.Boolean(string='Etat des Lames')
     bb_rabot_translation = fields.Boolean(string='Translation libre')
-    
-    # Contrôles de l'Elément Chauffant
     bb_chauffant_surface = fields.Boolean(string='Etat Surface & revêtement Téflon')
     bb_chauffant_mecanique = fields.Boolean(string='Libre fonctionnement mécanique')
     bb_chauffant_carter = fields.Boolean(string='Etat carter de protection')
-    
-    # Contrôles de l'Unité Hydraulique
     bb_hydraulique_boutons = fields.Boolean(string='Etat des boutons, leviers, mano. (Si manuelle)')
     bb_hydraulique_fixation = fields.Boolean(string='Fixation des sous ensembles')
     bb_hydraulique_flexibles = fields.Boolean(string='Etat des flexibles et connecteurs rapides')
     bb_hydraulique_huile = fields.Boolean(string='Vérification du niveau d\'huile')
-    
-    # Contrôles du Moniteur Informatisé
     bb_moniteur_etat = fields.Boolean(string='Etat général et fixations')
-    
-    # Contrôles de l'Unité Hydraulique (machine manuelle)
     bb_manuelle_levier = fields.Boolean(string='Fonctionnement levier Ouverture / Fermeture')
     bb_manuelle_regulateur = fields.Boolean(string='Fonctionnement régulateur pression')
     bb_manuelle_bypass = fields.Boolean(string='Fonctionnement du "By Pass"')
-    
-    # Pressure Table
     bb_pres_5 = fields.Float(string='5 Bar Actual')
     bb_pres_10 = fields.Float(string='10 Bar Actual')
     bb_pres_15 = fields.Float(string='15 Bar Actual')
@@ -172,69 +157,89 @@ class RepairOrder(models.Model):
     bb_pres_50 = fields.Float(string='50 Bar Actual')
     bb_pres_75 = fields.Float(string='75 Bar Actual')
     bb_pres_100 = fields.Float(string='100 Bar Actual')
-    
-    # Machine Automatique
     bb_auto_cycle = fields.Boolean(string='DEROULEMENT DU CYCLE')
     bb_auto_bourrelet = fields.Boolean(string='ASPECT BOURRELET')
     bb_auto_ticket = fields.Boolean(string='EDITION DU TICKET DE CYCLE')
-    
     bb_observations = fields.Text(string='Observations / Evolutions')
 
-    # --- Electrofusion Specific Fields (Hardcoded Layout) ---
+    # --- Electrofusion Fields ---
     ef_serie_no = fields.Char(string='N° de Série')
     ef_op_no = fields.Char(string='N° OP')
-    ef_mesure_appareil = fields.Selection([
-        ('aoip', 'AOIP'),
-        ('fluke', 'FLUKE 123'),
-        ('autre', 'Autre')
-    ], string='Type appareil de mesures')
+    ef_mesure_appareil = fields.Selection([('aoip', 'AOIP'), ('fluke', 'FLUKE 123'), ('autre', 'Autre')],
+                                          string='Type appareil de mesures')
     ef_mesure_serie = fields.Char(string='N° de série (Appareil)')
     ef_banc_serie = fields.Char(string='N° de série banc de test 10 gammes')
-    
-    # ETAPES CHRONOLOGIQUES (36 rows)
-    # Using a simple naming convention for the 36 rows to keep it manageable
-    ef_row1 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='1. Nettoyage')
+    ef_row1 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                               string='1. Nettoyage')
     ef_row2 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='2. Boitier')
     ef_row3 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='3. Châssis')
-    ef_row4 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='4. Fixation boitier/châssis')
+    ef_row4 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                               string='4. Fixation boitier/châssis')
     ef_row5 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='5. Lexan')
-    ef_row6 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='6. Afficheur LCD')
-    ef_row7 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='7. Faisceau primaire')
-    ef_row8 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='8. Prise secteur conforme au poste')
-    ef_row9 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='9. Adapt. prise CE/Domestique conforme')
-    ef_row10 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='10. Faisceau secondaire + Connectique')
-    ef_row11 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='11. Presse-étoupes')
-    ef_row12 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='12. Connecteurs secondaire')
-    ef_row13 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='13. Crayon lecteur')
-    ef_row14 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='14. Cordon crayon lect + Connectique')
-    ef_row15 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='15. Interrupteur M/A')
-    ef_row16 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='16. Sonde de température')
-    ef_row17 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='17. Ports externes')
-    ef_row18 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='18. Etiquette signalétique')
-    ef_row19 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='19. Présence scellé inviolable')
-    ef_row20 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='20. Sacoche/Coffre aluminium')
-    ef_row21 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='21. Edition historique')
-    ef_row22 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='22. Effacement de l\'historique')
-    ef_row23 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='23. Fonctionnement du buzzer')
-    ef_row24 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='24. Mode test conforme')
-    ef_row25 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='25. Essais de fonctionnement')
-    ef_row26 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='26. Câblage')
-    ef_row27 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='27. Fixation éléments')
-    ef_row28 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='28. Platines électroniques')
-    ef_row29 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='29. MàJ électronique')
-    ef_row30 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='30. MàJ logiciel')
-    ef_row31 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='31. Essais de fonctionnement')
-    ef_row32 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='32. Fermeture poste')
-    ef_row33 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='33. Pose du scellé inviolable')
-    ef_row34 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='34. Paramétrage')
-    ef_row35 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='35. Relevé d\'essais finals')
-    ef_row36 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')], string='36. Pose macaron de prochain contrôle')
-    
-    # Remplacements de Matériel
+    ef_row6 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                               string='6. Afficheur LCD')
+    ef_row7 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                               string='7. Faisceau primaire')
+    ef_row8 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                               string='8. Prise secteur conforme au poste')
+    ef_row9 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                               string='9. Adapt. prise CE/Domestique conforme')
+    ef_row10 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='10. Faisceau secondaire + Connectique')
+    ef_row11 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='11. Presse-étoupes')
+    ef_row12 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='12. Connecteurs secondaire')
+    ef_row13 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='13. Crayon lecteur')
+    ef_row14 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='14. Cordon crayon lect + Connectique')
+    ef_row15 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='15. Interrupteur M/A')
+    ef_row16 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='16. Sonde de température')
+    ef_row17 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='17. Ports externes')
+    ef_row18 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='18. Etiquette signalétique')
+    ef_row19 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='19. Présence scellé inviolable')
+    ef_row20 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='20. Sacoche/Coffre aluminium')
+    ef_row21 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='21. Edition historique')
+    ef_row22 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='22. Effacement de l\'historique')
+    ef_row23 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='23. Fonctionnement du buzzer')
+    ef_row24 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='24. Mode test conforme')
+    ef_row25 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='25. Essais de fonctionnement')
+    ef_row26 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='26. Câblage')
+    ef_row27 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='27. Fixation éléments')
+    ef_row28 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='28. Platines électroniques')
+    ef_row29 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='29. MàJ électronique')
+    ef_row30 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='30. MàJ logiciel')
+    ef_row31 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='31. Essais de fonctionnement')
+    ef_row32 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='32. Fermeture poste')
+    ef_row33 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='33. Pose du scellé inviolable')
+    ef_row34 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='34. Paramétrage')
+    ef_row35 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='35. Relevé d\'essais finals')
+    ef_row36 = fields.Selection([('conforme', 'CONFORME'), ('nc', 'N.C.'), ('corrige', 'CORRIGE')],
+                                string='36. Pose macaron de prochain contrôle')
     ef_carte_usb = fields.Char(string='Carte USB Type – N°')
     ef_version_logiciel = fields.Char(string='Version logiciel')
-    
-    # RELEVE D’ESSAIS FINALS
     ef_test_1 = fields.Char(string='14 V / 0,25 Ω')
     ef_test_2 = fields.Char(string='24 V / 0,25 Ω')
     ef_test_3 = fields.Char(string='30 V / 0,40 Ω')
@@ -246,28 +251,74 @@ class RepairOrder(models.Model):
     ef_test_9 = fields.Char(string='39 V / 10,0 Ω')
     ef_test_10 = fields.Char(string='42 V / 15,0 Ω')
     ef_test_manuel = fields.Char(string='Mode Manuel Result')
-    
     ef_essais_autres = fields.Text(string='Autres essais')
     ef_observations = fields.Text(string='Observations')
 
-    # New fields for Reception and Delivery
+    # --- Documents & Finance ---
     reception_no = fields.Char(string='N° Bon de Réception', copy=False, readonly=True)
     livraison_no = fields.Char(string='N° Bon de Livraison', copy=False, readonly=True)
     devis_approx = fields.Float(string='Devis approx.')
-    mode_paiement = fields.Selection([
-        ('espece', 'Espèce'),
-        ('cheque', 'Chèque'),
-        ('virement', 'Virement'),
-        ('autre', 'Autre')
-    ], string='Mode de paiement', default='espece')
+    mode_paiement = fields.Selection(
+        [('espece', 'Espèce'), ('cheque', 'Chèque'), ('virement', 'Virement'), ('autre', 'Autre')],
+        string='Mode de paiement', default='espece')
     timbre = fields.Float(string='Timbre')
     etabli_par = fields.Many2one('res.users', string='Etabli par', default=lambda self: self.env.user)
-    
+
     amount_untaxed = fields.Float(string='Total HT', compute='_compute_amounts', store=True)
     amount_tax = fields.Float(string='Total TVA', compute='_compute_amounts', store=True)
     amount_total = fields.Float(string='Total TTC', compute='_compute_amounts', store=True)
     amount_net_payer = fields.Float(string='NET A PAYER', compute='_compute_amounts', store=True)
 
+    # --- New Logic: Stock Receipt Generation ---
+    def action_create_receipt(self):
+        self.ensure_one()
+        if not self.partner_id:
+            raise UserError(_("Veuillez sélectionner un client avant de générer le bon de réception."))
+
+        # 1. Picking Type (Receipt/Incoming)
+        picking_type = self.env['stock.picking.type'].search([
+            ('code', '=', 'incoming'),
+            ('warehouse_id.company_id', '=', self.company_id.id)
+        ], limit=1)
+        if not picking_type:
+            raise UserError(_("Type d'opération 'Réception' introuvable."))
+
+        # 2. Locations
+        location_src = self.env.ref('stock.stock_location_customers')
+        location_dest = self.env.ref('atelier_repair.stock_location_atelier_customer')
+
+        # 3. Create Picking
+        picking = self.env['stock.picking'].create({
+            'partner_id': self.partner_id.id,
+            'picking_type_id': picking_type.id,
+            'location_id': location_src.id,
+            'location_dest_id': location_dest.id,
+            'origin': self.name,
+        })
+
+        # 4. Create Stock Move
+        self.env['stock.move'].create({
+            'name': self.product_id.name,
+            'product_id': self.product_id.id,
+            'product_uom_qty': 1.0,
+            'product_uom': self.product_uom.id,
+            'picking_id': picking.id,
+            'location_id': location_src.id,
+            'location_dest_id': location_dest.id,
+        })
+
+        picking.action_confirm()
+        self.reception_no = picking.name
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'stock.picking',
+            'res_id': picking.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
+
+    # --- Existing Methods ---
     @api.depends('move_ids.price_unit', 'move_ids.tax_id', 'move_ids.product_uom_qty', 'timbre')
     def _compute_amounts(self):
         for order in self:
@@ -277,7 +328,8 @@ class RepairOrder(models.Model):
                 price = move.price_unit * move.product_uom_qty
                 untaxed += price
                 if move.tax_id:
-                    taxes = move.tax_id.compute_all(move.price_unit, order.company_id.currency_id, move.product_uom_qty, product=move.product_id, partner=order.partner_id)
+                    taxes = move.tax_id.compute_all(move.price_unit, order.company_id.currency_id, move.product_uom_qty,
+                                                    product=move.product_id, partner=order.partner_id)
                     tax += sum(t.get('amount', 0.0) for t in taxes.get('taxes', []))
             order.amount_untaxed = untaxed
             order.amount_tax = tax
