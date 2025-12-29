@@ -1,0 +1,62 @@
+from odoo import models, fields
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    def action_generate_repairs(self):
+        self.ensure_one()
+        repair_model = self.env['repair.order']
+        new_repair_ids = []
+
+        for move in self.move_ids_without_package:
+            qty = int(move.product_uom_qty)
+            for _ in range(qty):
+                repair = repair_model.create({
+                    'product_id': move.product_id.id,
+                    'lot_id': move.x_lot_id.id,
+                    'partner_id': self.partner_id.id,
+                    'product_uom': move.product_uom.id,
+                    'picking_id': self.id,
+                    'declared_breakdown_ids': [(6, 0, move.x_declared_breakdown_ids.ids)],
+                    'x_observation': move.x_observation,
+                    'internal_notes': move.x_observation,
+                })
+                new_repair_ids.append(repair.id)
+
+        # This is the part that redirects you
+        return {
+            'name': 'Ordres de Réparation Générés',
+            'type': 'ir.actions.act_window',
+            'res_model': 'repair.order',
+            'view_mode': 'list,form',
+            'domain': [('id', 'in', new_repair_ids)],  # Only show the ones we just made
+            'target': 'current',  # Opens in the same window
+        }
+
+    def button_validate(self):
+        # 1. Look through each line in the 'Operations' tab
+        for move in self.move_ids_without_package:
+            # 2. If the user filled in our custom Serial Number field
+            if move.x_lot_id:
+                # 3. If Odoo hasn't created the internal move lines yet, create one
+                if not move.move_line_ids:
+                    self.env['stock.move.line'].create({
+                        'picking_id': self.id,
+                        'move_id': move.id,
+                        'product_id': move.product_id.id,
+                        'product_uom_id': move.product_uom.id,
+                        'location_id': move.location_id.id,
+                        'location_dest_id': move.location_dest_id.id,
+                        'lot_id': move.x_lot_id.id,
+                        'quantity': move.product_uom_qty,
+                    })
+                else:
+                    # 4. If lines exist (like after 'Mark as Todo'), sync the serial number
+                    for line in move.move_line_ids:
+                        if not line.lot_id:
+                            line.write({
+                                'lot_id': move.x_lot_id.id,
+                                'quantity': move.product_uom_qty or 1.0
+                            })
+
+        # 5. Now continue with Odoo's standard validation logic
+        return super(StockPicking, self).button_validate()
