@@ -77,15 +77,24 @@ class StockPicking(models.Model):
     def default_get(self, fields_list):
         res = super(StockPicking, self).default_get(fields_list)
 
-        # Check if we are coming from your specific menu
+        # Check if we are coming from reception menu
         if self._context.get('picking_ateliers_flow'):
-            # Find the Operation Type ID safely
             atelier_type = self.env.ref('atelier_repair.picking_type_atelier_in', raise_if_not_found=False)
-
             if atelier_type:
                 res.update({
                     'picking_type_id': atelier_type.id,
                     'location_id': atelier_type.default_location_src_id.id,
                     'location_dest_id': atelier_type.default_location_dest_id.id,
                 })
+        
+        # Check if we are coming from delivery menu
+        elif self._context.get('picking_ateliers_delivery_flow'):
+            atelier_type = self.env.ref('atelier_repair.picking_type_atelier_out', raise_if_not_found=False)
+            if atelier_type:
+                res.update({
+                    'picking_type_id': atelier_type.id,
+                    'location_id': atelier_type.default_location_src_id.id,
+                    'location_dest_id': atelier_type.default_location_dest_id.id,
+                })
+        
         return res

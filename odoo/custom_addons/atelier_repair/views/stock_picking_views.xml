@@ -36,14 +36,24 @@
             </xpath>
 
             <xpath expr="//field[@name='picking_type_id']" position="attributes">
-                <attribute name="readonly">context.get('picking_ateliers_flow')</attribute>
+                <attribute name="readonly">context.get('picking_ateliers_flow') or
+                    context.get('picking_ateliers_delivery_flow')</attribute>
                 <attribute name="force_save">1</attribute>
             </xpath>
 
             <xpath
                 expr="//field[@name='location_dest_id'][@groups='stock.group_stock_multi_locations']"
                 position="attributes">
-                <attribute name="readonly">1</attribute>
+                <attribute name="readonly">context.get('picking_ateliers_flow') or
+                    context.get('picking_ateliers_delivery_flow')</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <xpath
+                expr="//field[@name='location_id'][@groups='stock.group_stock_multi_locations']"
+                position="attributes">
+                <attribute name="readonly">context.get('picking_ateliers_flow') or
+                    context.get('picking_ateliers_delivery_flow')</attribute>
                 <attribute name="force_save">1</attribute>
             </xpath>
 

@@ -9,11 +9,12 @@
     </record>
 
     <record id="action_picking_tree_delivery_filtered" model="ir.actions.act_window">
-        <field name="name">Bons de Livraison</field>
+        <field name="name">Bons de Livraison Atelier</field>
         <field name="res_model">stock.picking</field>
         <field name="view_mode">list,kanban,form</field>
-        <field name="domain">[('picking_type_code', '=', 'outgoing')]</field>
-        <field name="context">{'default_picking_type_code': 'outgoing'}</field>
+        <field name="domain">[('picking_type_id.sequence_code', '=', 'ATEL-OUT')]</field>
+        <field name="context">{'picking_ateliers_delivery_flow': True, 'default_immediate_transfer':
+            False}</field>
     </record>
 
     <menuitem id="repair.menu_repair_order" name="Atelier" />
