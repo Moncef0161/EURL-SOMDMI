@@ -30,10 +30,9 @@
                 <attribute name="force_save">1</attribute>
             </xpath>
 
-            <xpath expr="//field[@name='location_dest_id']" position="attributes">
+            <xpath expr="//field[@name='location_dest_id'][@groups='stock.group_stock_multi_locations']" position="attributes">
                 <attribute name="readonly">1</attribute>
                 <attribute name="force_save">1</attribute>
-                <attribute name="force">1</attribute>
             </xpath>
 
         </field>
