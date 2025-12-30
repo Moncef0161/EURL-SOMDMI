@@ -8,7 +8,7 @@
 Ce module renomme le module de Réparation en Atelier et personnalise ses menus.
 """,
     'author': 'Moncef',
-    'depends': ['repair', 'algerian_accounting', 'stock', 'contacts', 'purchase_repair'],
+    'depends': ['repair', 'algerian_accounting', 'stock', 'contacts', 'purchase_repair', 'somdmi_reports'],
     'data': [
         'data/product_category_data.xml',
         'data/stock_location_data.xml',
