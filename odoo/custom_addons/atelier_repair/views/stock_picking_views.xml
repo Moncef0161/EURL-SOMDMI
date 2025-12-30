@@ -3,26 +3,36 @@
     <record id="view_picking_form_inherit_repair_atelier" model="ir.ui.view">
         <field name="name">stock.picking.form.inherit.repair.atelier</field>
         <field name="model">stock.picking</field>
-        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
+
+            <xpath expr="//form/sheet" position="before">
+                <field name="is_atelier_in" invisible="1" />
+            </xpath>
 
             <xpath expr="//header" position="inside">
                 <button name="action_generate_repairs"
-                        string="Créer Ordres de Réparation"
-                        type="object"
-                        class="oe_highlight"
-                        invisible="picking_type_code != 'incoming' or state != 'done'"/>
+                    string="Créer Ordres de Réparation"
+                    type="object"
+                    class="oe_highlight"
+                    invisible="not is_atelier_in or state != 'done'" />
             </xpath>
 
-            <xpath expr="//field[@name='move_ids_without_package']//list//field[@name='product_id']" position="after">
+            <xpath expr="//field[@name='move_ids_without_package']//list//field[@name='product_id']"
+                position="after">
                 <field name="x_lot_id"
-                       domain="[('product_id', '=', product_id)]"
-                       context="{'default_product_id': product_id}"
-                       widget="many2one"
-                       options="{'no_create_edit': False}"/>
+                    domain="[('product_id', '=', product_id)]"
+                    context="{'default_product_id': product_id}"
+                    widget="many2one"
+                    options="{'no_create_edit': False}"
+                    optional="hide" />
 
-                <field name="x_declared_breakdown_ids" widget="many2many_tags" options="{'no_create': False}"/>
-                <field name="x_observation"/>
+                <field name="x_declared_breakdown_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': False}"
+                    optional="hide" />
+                <field name="x_observation"
+                    optional="hide" />
             </xpath>
 
             <xpath expr="//field[@name='picking_type_id']" position="attributes">
@@ -30,7 +40,9 @@
                 <attribute name="force_save">1</attribute>
             </xpath>
 
-            <xpath expr="//field[@name='location_dest_id'][@groups='stock.group_stock_multi_locations']" position="attributes">
+            <xpath
+                expr="//field[@name='location_dest_id'][@groups='stock.group_stock_multi_locations']"
+                position="attributes">
                 <attribute name="readonly">1</attribute>
                 <attribute name="force_save">1</attribute>
             </xpath>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Override the delivery slip report for ATEL-IN receipts -->
+    <template id="report_delivery_atelier" inherit_id="stock.report_delivery_document">
+
+        <!-- Hide the default "not done" table (with ORDERED/DELIVERED columns) for ATEL-IN -->
+        <xpath expr="//table[@name='stock_move_table']" position="attributes">
+            <attribute name="t-if">o.state!='done' and o.picking_type_id.sequence_code != 'ATEL-IN'</attribute>
+        </xpath>
+
+        <!-- Hide the default "done" table for ATEL-IN -->
+        <xpath expr="//table[@name='stock_move_line_table']" position="attributes">
+            <attribute name="t-elif">o.move_line_ids and o.state=='done' and
+                o.picking_type_id.sequence_code != 'ATEL-IN'</attribute>
+        </xpath>
+
+        <!-- Add custom table for ATEL-IN receipts -->
+        <xpath expr="//table[@name='stock_move_table']" position="before">
+            <table class="table table-sm" t-if="o.picking_type_id.sequence_code == 'ATEL-IN'">
+                <thead>
+                    <tr>
+                        <th name="th_number" class="text-center" style="width: 5%;">
+                            <strong>N°</strong>
+                        </th>
+                        <th name="th_code" class="text-center" style="width: 10%;">
+                            <strong>Code Objet</strong>
+                        </th>
+                        <th name="th_product" style="width: 25%;">
+                            <strong>Description de l'Objet</strong>
+                        </th>
+                        <th name="th_serial" class="text-center" style="width: 15%;">
+                            <strong>N° de Série</strong>
+                        </th>
+                        <th name="th_breakdowns" class="text-center" style="width: 25%;">
+                            <strong>Pannes Déclarées</strong>
+                        </th>
+                        <th name="th_observation" class="text-center" style="width: 20%;">
+                            <strong>Observation</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="o.move_ids_without_package" t-as="move">
+                        <tr>
+                            <td class="text-center">
+                                <span t-esc="move_index + 1" />
+                            </td>
+                            <td class="text-center">
+                                <!-- Code Objet - empty for now -->
+                            </td>
+                            <td>
+                                <span t-field="move.product_id.display_name" />
+                                <br t-if="move.product_id.description_picking" />
+                                <span t-if="move.product_id.description_picking"
+                                    t-field="move.product_id.description_picking" />
+                            </td>
+                            <td class="text-center">
+                                <span t-field="move.x_lot_id.name" />
+                            </td>
+                            <td class="text-center">
+                                <span
+                                    t-esc="', '.join(move.x_declared_breakdown_ids.mapped('name'))" />
+                            </td>
+                            <td class="text-center">
+                                <span t-field="move.x_observation" />
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+    </template>
+</odoo>

@@ -10,3 +10,9 @@ class StockMove(models.Model):
         'repair.breakdown',
         string='Pannes Déclarées'
     )
+
+    def _prepare_merge_moves_distinct_fields(self):
+        fields = super()._prepare_merge_moves_distinct_fields()
+        fields.append('x_lot_id')
+        fields.append('x_observation')
+        return fields

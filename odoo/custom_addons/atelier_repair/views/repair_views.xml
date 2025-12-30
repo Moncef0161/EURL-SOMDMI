@@ -9,18 +9,11 @@
                 <button name="%(atelier_repair.action_report_repair_checklist)d"
                     string="Imprimer Fiche de Contrôle"
                     type="action"
-                    invisible="product_type_name not in ['bout_a_bout', 'electrofusion']" />
+                    invisible="product_type_name not in ['Bout à Bout', 'Electrofusion', 'bout_a_bout', 'electrofusion']" />
             </xpath>
 
             <xpath expr="//field[@name='product_id']" position="attributes">
                 <attribute name="domain">[('type', '!=', 'service')]</attribute>
-            </xpath>
-
-            <xpath expr="//header" position="inside">
-                <button name="%(atelier_repair.action_report_repair_checklist)d"
-                        string="Imprimer Fiche de Contrôle"
-                        type="action"
-                        invisible="product_type_name not in ['Bout à Bout', 'Electrofusion']" />
             </xpath>
 
             <xpath expr="//field[@name='move_ids']/list/field[@name='product_uom']" position="after">
@@ -29,25 +22,29 @@
             </xpath>
 
             <xpath expr="//field[@name='product_location_src_id']" position="attributes">
-                <attribute name="context">{'default_product_location_src_id': %(atelier_repair.stock_location_atelier_customer)d}</attribute>
+                <attribute name="context">{'default_product_location_src_id':
+                    %(atelier_repair.stock_location_atelier_customer)d}</attribute>
             </xpath>
 
             <xpath expr="//field[@name='location_id']" position="attributes">
-                <attribute name="context">{'default_location_id': %(atelier_repair.stock_location_atelier_customer)d}</attribute>
+                <attribute name="context">{'default_location_id':
+                    %(atelier_repair.stock_location_atelier_customer)d}</attribute>
             </xpath>
 
-           <xpath expr="//page[@name='parts']/field[@name='move_ids']/list/field[@name='product_id']" position="attributes">
+            <xpath
+                expr="//page[@name='parts']/field[@name='move_ids']/list/field[@name='product_id']"
+                position="attributes">
                 <attribute name="domain">[('categ_id.name', '=', 'Pièce de rechange')]</attribute>
-           </xpath>
+            </xpath>
 
             <xpath expr="//page[@name='parts']" position="before">
                 <page string="Pannes" name="breakdowns">
                     <group>
-                        <field name="declared_breakdown_ids" widget="many2many_tags" required ="1"
+                        <field name="declared_breakdown_ids" widget="many2many_tags" required="1"
                             options="{'no_create_edit': False}" />
                         <field name="actual_breakdown_ids" widget="many2many_tags"
                             options="{'no_create_edit': False}" />
-                        <field name="x_observation"/>
+                        <field name="x_observation" />
                     </group>
                 </page>
                 <page string="Fiche de Contrôle" name="checklist">
@@ -251,39 +248,6 @@
 
                         <field name="bb_observations" placeholder="Observations / Evolutions..." />
                     </div>
-                </page>
-                <page string="Documents" name="documents">
-                    <group>
-                        <group string="Bon de Réception">
-                            <field name="reception_no" />
-                            <field name="devis_approx" />
-                            <button name="action_generate_reception_no"
-                                string="Générer N° Réception" type="object" class="btn-secondary"
-                                invisible="reception_no" />
-                        </group>
-                        <group string="Bon de Livraison">
-                            <field name="livraison_no" />
-                            <field name="mode_paiement" />
-                            <field name="timbre" />
-                            <field name="etabli_par" />
-                            <button name="action_generate_livraison_no"
-                                string="Générer N° Livraison" type="object" class="btn-secondary"
-                                invisible="livraison_no" />
-                        </group>
-                    </group>
-                    <group class="oe_subtotal_footer oe_right">
-                        <field name="amount_untaxed" widget="monetary"
-                            options="{'currency_field': 'currency_id'}" />
-                        <field name="amount_tax" widget="monetary"
-                            options="{'currency_field': 'currency_id'}" />
-                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                            <label for="amount_total" />
-                        </div>
-                        <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator"
-                            widget="monetary" options="{'currency_field': 'currency_id'}" />
-                        <field name="amount_net_payer" widget="monetary"
-                            options="{'currency_field': 'currency_id'}" />
-                    </group>
                 </page>
             </xpath>
         </field>

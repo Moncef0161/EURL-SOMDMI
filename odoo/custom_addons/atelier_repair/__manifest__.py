@@ -19,7 +19,7 @@ Ce module renomme le module de Réparation en Atelier et personnalise ses menus.
         'views/product_views.xml',
         'views/stock_picking_views.xml',
         'report/repair_checklist_report.xml',
-        'report/repair_documents_report.xml',
+        'report/stock_picking_report.xml',
         'views/repair_menus.xml',
         'views/repair_views.xml',
     ],

@@ -3,6 +3,17 @@ from odoo import models, fields, api
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
+    is_atelier_in = fields.Boolean(
+        string="Is Atelier Reception",
+        compute='_compute_is_atelier_in',
+        store=False
+    )
+
+    @api.depends('picking_type_id', 'picking_type_id.sequence_code')
+    def _compute_is_atelier_in(self):
+        for picking in self:
+            picking.is_atelier_in = picking.picking_type_id.sequence_code == 'ATEL-IN'
+
     def action_generate_repairs(self):
         self.ensure_one()
         repair_model = self.env['repair.order']
